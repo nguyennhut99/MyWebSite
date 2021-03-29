@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using MyShop.Backend.Models;
+using MyShop.Backend.ViewModels;
 
 namespace MyShop.Backend.Controllers
 {
