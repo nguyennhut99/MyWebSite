@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MyShop.Backend.Models;
+using MyShop.Backend.IdentityServer;
 
 namespace MyShop.Backend
 {
@@ -36,6 +37,20 @@ namespace MyShop.Backend
             services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
+
+            services.AddIdentityServer(options =>
+            {
+                options.Events.RaiseErrorEvents = true;
+                options.Events.RaiseInformationEvents = true;
+                options.Events.RaiseFailureEvents = true;
+                options.Events.RaiseSuccessEvents = true;
+                options.EmitStaticAudienceClaim = true;
+            })
+               .AddInMemoryIdentityResources(IdentityServerConfig.IdentityResources)
+               .AddInMemoryApiScopes(IdentityServerConfig.ApiScopes)
+               .AddInMemoryClients(IdentityServerConfig.Clients)
+               .AddAspNetIdentity<User>()
+               .AddDeveloperSigningCredential();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
