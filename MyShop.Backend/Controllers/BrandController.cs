@@ -12,6 +12,9 @@ using MyShop.Share;
 
 namespace MyShop.Backend.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
+    [Authorize("Bearer")]
     public class BrandController : Controller
     {
         private readonly ApplicationDbContext _context;
