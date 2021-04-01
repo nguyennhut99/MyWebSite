@@ -12,6 +12,11 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.4" />
+  </ItemGroup> 
+
+  <ItemGroup>
+    <ProjectReference Include="../MyShop.Share/MyShop.Share.csproj" />
   </ItemGroup>
+  
 
 </Project>
