@@ -1,20 +1,20 @@
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
+using MyShop.Backend.Data;
+using MyShop.Backend.IdentityServer;
+using MyShop.Backend.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.EntityFrameworkCore;
-using MyShop.Backend.Data;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using MyShop.Backend.Models;
-using MyShop.Backend.IdentityServer;
-using Microsoft.OpenApi.Models;
 
 namespace MyShop.Backend
 {
@@ -36,12 +36,28 @@ namespace MyShop.Backend
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-            
+
+            services.AddIdentityServer(options =>
+            {
+                options.Events.RaiseErrorEvents = true;
+                options.Events.RaiseInformationEvents = true;
+                options.Events.RaiseFailureEvents = true;
+                options.Events.RaiseSuccessEvents = true;
+                options.EmitStaticAudienceClaim = true;
+            })
+               .AddInMemoryIdentityResources(IdentityServerConfig.IdentityResources)
+               .AddInMemoryApiScopes(IdentityServerConfig.ApiScopes)
+               .AddInMemoryClients(IdentityServerConfig.Clients)
+               .AddAspNetIdentity<User>()    
+               .AddProfileService<CustomProfileService>()        
+               .AddDeveloperSigningCredential(); // not recommended for production - you need to store your key material somewhere secure
+
             services.AddAuthentication()
                 .AddLocalApi("Bearer", option =>
                 {
-                    option.ExpectedScope = "rookieshop.api";
+                    option.ExpectedScope = "myshop.api";
                 });
 
             services.AddAuthorization(options =>
@@ -57,7 +73,7 @@ namespace MyShop.Backend
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My Shop API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My  Shop API", Version = "v1" });
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     Type = SecuritySchemeType.OAuth2,
@@ -67,7 +83,7 @@ namespace MyShop.Backend
                         {
                             TokenUrl = new Uri("/connect/token", UriKind.Relative),
                             AuthorizationUrl = new Uri("/connect/authorize", UriKind.Relative),
-                            Scopes = new Dictionary<string, string> { { "myshop.api", "My Shop API" } }
+                            Scopes = new Dictionary<string, string> { { "myshop.api", "My  Shop API" } }
                         },
                     },
                 });
@@ -82,20 +98,6 @@ namespace MyShop.Backend
                     }
                 });
             });
-
-            services.AddIdentityServer(options =>
-            {
-                options.Events.RaiseErrorEvents = true;
-                options.Events.RaiseInformationEvents = true;
-                options.Events.RaiseFailureEvents = true;
-                options.Events.RaiseSuccessEvents = true;
-                options.EmitStaticAudienceClaim = true;
-            })
-               .AddInMemoryIdentityResources(IdentityServerConfig.IdentityResources)
-               .AddInMemoryApiScopes(IdentityServerConfig.ApiScopes)
-               .AddInMemoryClients(IdentityServerConfig.Clients)
-               .AddAspNetIdentity<User>()
-               .AddDeveloperSigningCredential();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -117,7 +119,7 @@ namespace MyShop.Backend
 
             app.UseRouting();
 
-            app.UseAuthentication();
+            app.UseIdentityServer();
             app.UseAuthorization();
 
             app.UseSwagger();
@@ -126,7 +128,7 @@ namespace MyShop.Backend
                 c.OAuthClientId("swagger");
                 c.OAuthClientSecret("secret");
                 c.OAuthUsePkce();
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My Shop API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My  Shop API V1");
             });
 
             app.UseEndpoints(endpoints =>

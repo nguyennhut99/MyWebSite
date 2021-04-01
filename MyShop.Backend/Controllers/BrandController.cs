@@ -15,7 +15,7 @@ namespace MyShop.Backend.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize("Bearer")]
-    public class BrandController : Controller
+    public class BrandController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
 
@@ -53,6 +53,7 @@ namespace MyShop.Backend.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> PutBrand(int id, BrandCreateRequest brandCreateRequest)
         {
             var brand = await _context.Brands.FindAsync(id);
@@ -69,6 +70,7 @@ namespace MyShop.Backend.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult<BrandVm>> PostBrand(BrandCreateRequest brandCreateRequest)
         {
             var brand = new Brand
@@ -83,6 +85,7 @@ namespace MyShop.Backend.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> DeleteBrand(int id)
         {
             var brand = await _context.Brands.FindAsync(id);
