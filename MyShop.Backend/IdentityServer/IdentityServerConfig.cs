@@ -51,7 +51,28 @@ namespace MyShop.Backend.IdentityServer
                         IdentityServerConstants.StandardScopes.Profile,
                         "myshop.api"
                     }
-                }
+                },
+
+                new Client
+                {
+                    ClientId = "swagger",
+                    ClientSecrets = { new Secret("secret".Sha256()) },
+                    AllowedGrantTypes = GrantTypes.Code,
+
+                    RequireConsent = false,
+                    RequirePkce = true,
+
+                    RedirectUris =           { $"https://localhost:44360/swagger/oauth2-redirect.html" },
+                    PostLogoutRedirectUris = { $"https://localhost:44360/swagger/oauth2-redirect.html" },
+                    AllowedCorsOrigins =     { $"https://localhost:44360" },
+
+                    AllowedScopes = new List<string>
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        "myshop.api"
+                    }
+                },
             };
     }
 }
