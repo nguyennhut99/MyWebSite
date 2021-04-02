@@ -62,9 +62,9 @@ namespace MyShop.Backend.IdentityServer
                     RequireConsent = false,
                     RequirePkce = true,
 
-                    RedirectUris =           { $"https://localhost:44360/swagger/oauth2-redirect.html" },
-                    PostLogoutRedirectUris = { $"https://localhost:44360/swagger/oauth2-redirect.html" },
-                    AllowedCorsOrigins =     { $"https://localhost:44360" },
+                    RedirectUris =           { $"https://localhost:44358/swagger/oauth2-redirect.html" },
+                    PostLogoutRedirectUris = { $"https://localhost:44358/swagger/oauth2-redirect.html" },
+                    AllowedCorsOrigins =     { $"https://localhost:44358" },
 
                     AllowedScopes = new List<string>
                     {
