@@ -73,7 +73,7 @@ namespace MyShop.Backend
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My  Shop API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My Shop API", Version = "v1" });
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     Type = SecuritySchemeType.OAuth2,
@@ -83,7 +83,7 @@ namespace MyShop.Backend
                         {
                             TokenUrl = new Uri("/connect/token", UriKind.Relative),
                             AuthorizationUrl = new Uri("/connect/authorize", UriKind.Relative),
-                            Scopes = new Dictionary<string, string> { { "myshop.api", "My  Shop API" } }
+                            Scopes = new Dictionary<string, string> { { "myshop.api", "My Shop API" } }
                         },
                     },
                 });
@@ -128,7 +128,7 @@ namespace MyShop.Backend
                 c.OAuthClientId("swagger");
                 c.OAuthClientSecret("secret");
                 c.OAuthUsePkce();
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My  Shop API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My Shop API V1");
             });
 
             app.UseEndpoints(endpoints =>
