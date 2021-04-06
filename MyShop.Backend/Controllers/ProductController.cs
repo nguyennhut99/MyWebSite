@@ -34,12 +34,14 @@ namespace MyShop.Backend.Controllers
         public async Task<ActionResult<IEnumerable<ProductVm>>> GetProducts()
         {
             return await _context.Products
-                .Select(x => new ProductVm { 
-                    Id = x.Id, 
-                    Name = x.Name, 
-                    Price = x.Price, 
-                    Description = x.Description, 
-                    ThumbnailImageUrl = x.ImageFileName })
+                .Select(x => new ProductVm
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Price = x.Price,
+                    Description = x.Description,
+                    ThumbnailImageUrl = x.ImageFileName
+                })
                 .ToListAsync();
         }
 
@@ -68,7 +70,7 @@ namespace MyShop.Backend.Controllers
 
         [HttpPut("{id}")]
         [Authorize(Roles = "admin")]
-        public async Task<IActionResult> PutProduct(int id,[FromForm] ProductCreateRequest productCreateRequest)
+        public async Task<IActionResult> PutProduct(int id, [FromForm] ProductCreateRequest productCreateRequest)
         {
             var product = await _context.Products.FindAsync(id);
 
@@ -87,6 +89,22 @@ namespace MyShop.Backend.Controllers
                 product.ImageFileName = await SaveFile(productCreateRequest.ThumbnailImageUrl);
             }
 
+            _context.ProductCategory.RemoveRange(
+                await _context.ProductCategory.Where(i=> i.ProductId.Equals(id))
+                .ToListAsync()
+            );
+
+            foreach (var Id in productCreateRequest.CategoryId)
+            {
+                _context.ProductCategory.Add(
+                    new ProductCategory
+                    {
+                        ProductId = product.Id,
+                        CategoryId = Id
+                    }
+                );
+            }
+
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -94,9 +112,9 @@ namespace MyShop.Backend.Controllers
 
         [HttpPost]
         [Authorize(Roles = "admin")]
-        public async Task<ActionResult<ProductVm>> PostProduct([FromForm]ProductCreateRequest productCreateRequest)
+        public async Task<ActionResult<ProductVm>> PostProduct([FromForm] ProductCreateRequest productCreateRequest)
         {
-            
+
             var product = new Product
             {
                 Name = productCreateRequest.Name,
@@ -111,6 +129,17 @@ namespace MyShop.Backend.Controllers
             }
 
             _context.Products.Add(product);
+            await _context.SaveChangesAsync();
+            foreach (var Id in productCreateRequest.CategoryId)
+            {
+                _context.ProductCategory.Add(
+                    new ProductCategory
+                    {
+                        ProductId = product.Id,
+                        CategoryId = Id
+                    }
+                );
+            }
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetProduct", new { id = product.Id }, new ProductVm { Id = product.Id, Name = product.Name });
@@ -137,7 +166,7 @@ namespace MyShop.Backend.Controllers
         {
             var originalFileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
             var fileName = $"{Guid.NewGuid()}{Path.GetExtension(originalFileName)}";
-            await _storageService.SaveFileAsync(file, fileName); 
+            await _storageService.SaveFileAsync(file, fileName);
             return fileName;
         }
     }
