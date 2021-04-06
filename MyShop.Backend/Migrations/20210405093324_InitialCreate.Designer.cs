@@ -10,7 +10,7 @@ using MyShop.Backend.Data;
 namespace MyShop.Backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210402075501_InitialCreate")]
+    [Migration("20210405093324_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

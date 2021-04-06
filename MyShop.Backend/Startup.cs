@@ -11,6 +11,7 @@ using Microsoft.OpenApi.Models;
 using MyShop.Backend.Data;
 using MyShop.Backend.IdentityServer;
 using MyShop.Backend.Models;
+using MyShop.Backend.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,6 +35,8 @@ namespace MyShop.Backend
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
+
+            services.AddTransient<IStorageService, FileStorageService>();
 
             services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<IdentityRole>()

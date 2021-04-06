@@ -1,4 +1,4 @@
-namespace MyShop.ViewModels
+namespace MyShop.Share
 {
     public class ProductVm
     {
@@ -9,7 +9,8 @@ namespace MyShop.ViewModels
         public decimal Price { get; set; }
 
         public string Description { get; set; }
-
+        
         public string ThumbnailImageUrl { get; set; }
+        
     }
 }
