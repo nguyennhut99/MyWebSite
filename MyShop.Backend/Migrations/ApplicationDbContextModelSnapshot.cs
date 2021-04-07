@@ -184,6 +184,53 @@ namespace MyShop.Backend.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("MyShop.Backend.Models.OrderDetail", b =>
+                {
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OrderDetailId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OrderQty")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("UnitPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("OrderId", "OrderDetailId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("OrderDetails");
+                });
+
+            modelBuilder.Entity("MyShop.Backend.Models.OrderHeader", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("TotalDue")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("OrderHeaders");
+                });
+
             modelBuilder.Entity("MyShop.Backend.Models.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -347,6 +394,34 @@ namespace MyShop.Backend.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("MyShop.Backend.Models.OrderDetail", b =>
+                {
+                    b.HasOne("MyShop.Backend.Models.OrderHeader", "OrderHeader")
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MyShop.Backend.Models.Product", "Product")
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("OrderHeader");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("MyShop.Backend.Models.OrderHeader", b =>
+                {
+                    b.HasOne("MyShop.Backend.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("MyShop.Backend.Models.Product", b =>
                 {
                     b.HasOne("MyShop.Backend.Models.Brand", "Brand")
@@ -382,8 +457,15 @@ namespace MyShop.Backend.Migrations
                     b.Navigation("ProductCategories");
                 });
 
+            modelBuilder.Entity("MyShop.Backend.Models.OrderHeader", b =>
+                {
+                    b.Navigation("OrderDetails");
+                });
+
             modelBuilder.Entity("MyShop.Backend.Models.Product", b =>
                 {
+                    b.Navigation("OrderDetails");
+
                     b.Navigation("ProductCategories");
                 });
 #pragma warning restore 612, 618

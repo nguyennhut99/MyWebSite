@@ -18,6 +18,8 @@ namespace MyShop.Backend.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<ProductCategory> ProductCategory { get; set; }
+        public DbSet<OrderHeader> OrderHeaders { get; set; }
+        public DbSet<OrderDetail> OrderDetails { get; set; }
         
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -35,6 +37,19 @@ namespace MyShop.Backend.Data
                 .HasOne(pc => pc.Category)
                 .WithMany(c => c.ProductCategories)
                 .HasForeignKey(pc => pc.CategoryId);
+
+            modelBuilder.Entity<OrderDetail>()
+            .HasKey(od => new{od.OrderId, od.OrderDetailId});
+
+            modelBuilder.Entity<OrderDetail>()
+                .HasOne(od => od.Product)
+                .WithMany(p => p.OrderDetails)
+                .HasForeignKey(od => od.ProductId);
+
+            modelBuilder.Entity<OrderDetail>()
+                .HasOne(od => od.OrderHeader)
+                .WithMany(p => p.OrderDetails)
+                .HasForeignKey(od => od.OrderId);
         }
     }
 }

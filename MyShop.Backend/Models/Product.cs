@@ -19,5 +19,7 @@ namespace MyShop.Backend.Models
         public Brand Brand { get; set; }
 
         public IList<ProductCategory> ProductCategories { get; private set; } = new List<ProductCategory>();
+
+        public IList<OrderDetail> OrderDetails { get; private set; } = new List<OrderDetail>();
     }
 }
