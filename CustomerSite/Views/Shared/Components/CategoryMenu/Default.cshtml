@@ -1,0 +1,8 @@
+﻿@model IList<MyShop.Share.CategoryVm>
+
+<ul class="col-md-12 list-unstyled m-0 bg-white border-radius shadow-sm box-list-menu">
+    @foreach (var category in Model)
+    {
+        <li class="menu-item">@category.Name</li>
+    }
+</ul>
