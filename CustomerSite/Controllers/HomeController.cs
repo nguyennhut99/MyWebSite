@@ -6,21 +6,31 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using CustomerSite.Models;
+using CustomerSite.Services;
+using System.IO;
 
 namespace CustomerSite.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly IProductApiClient _productApiClient;
+        public HomeController(ILogger<HomeController> logger, IProductApiClient productApiClient)
         {
             _logger = logger;
+            _productApiClient = productApiClient;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var Products = await _productApiClient.Getproducts();
+            foreach (var Product in Products)
+            {
+                Product.ThumbnailImageUrl = Path.Combine("https://localhost:44358/images", Product.ThumbnailImageUrl);
+                
+            }
+
+            return View(Products);
         }
 
         public IActionResult Privacy()

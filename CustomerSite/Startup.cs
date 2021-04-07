@@ -59,6 +59,7 @@ namespace CustomerSite
             services.AddHttpClient();
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<ICategoryApiClient, CategoryApiClient>();
+            services.AddTransient<IProductApiClient, ProductApiClient>();
                 
             services.AddControllersWithViews();
         }
