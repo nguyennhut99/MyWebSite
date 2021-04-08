@@ -33,13 +33,11 @@ namespace MyShop.Backend.Data
                 .HasOne(pc => pc.Product)
                 .WithMany(p => p.ProductCategories)
                 .HasForeignKey(pc => pc.ProductId);
+                
             modelBuilder.Entity<ProductCategory>()
                 .HasOne(pc => pc.Category)
                 .WithMany(c => c.ProductCategories)
                 .HasForeignKey(pc => pc.CategoryId);
-
-            modelBuilder.Entity<OrderDetail>()
-            .HasKey(od => new{od.OrderId, od.OrderDetailId});
 
             modelBuilder.Entity<OrderDetail>()
                 .HasOne(od => od.Product)

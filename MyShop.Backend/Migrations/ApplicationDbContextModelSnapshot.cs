@@ -186,10 +186,12 @@ namespace MyShop.Backend.Migrations
 
             modelBuilder.Entity("MyShop.Backend.Models.OrderDetail", b =>
                 {
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
-
                     b.Property<int>("OrderDetailId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("OrderId")
                         .HasColumnType("int");
 
                     b.Property<int>("OrderQty")
@@ -201,7 +203,9 @@ namespace MyShop.Backend.Migrations
                     b.Property<decimal>("UnitPrice")
                         .HasColumnType("decimal(18,2)");
 
-                    b.HasKey("OrderId", "OrderDetailId");
+                    b.HasKey("OrderDetailId");
+
+                    b.HasIndex("OrderId");
 
                     b.HasIndex("ProductId");
 
