@@ -6,10 +6,20 @@
 <div class="row">
     @foreach (var product in Model)
     {
-        <div class="col-4" >
-            <h2>@product.Name</h2>
-            <img class="img-thumbnail" src=@product.ThumbnailImageUrl >
+        <div class="col-md-3 col-sm-3 col-xs-3">
+            <div class="card">
+                <a href=""><img class="card-img-top" src=@product.ThumbnailImageUrl></a>
+                <div class="card-body">
+                    <h5 class="card-title">@product.Name</h5>
+                    <p class="card-text">@product.Description</p>
+                    <p><strong>@product.Price</strong> VND</p>
+                    <button class="btn btn-primary product-button" name=@product.Id >ADD TO CART</button>
+                </div>
+
+            </div>
         </div>
     }
-    
+
+
+
 </div>
