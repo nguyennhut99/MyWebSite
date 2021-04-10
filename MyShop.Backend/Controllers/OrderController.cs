@@ -56,14 +56,6 @@ namespace MyShop.Backend.Controllers
                 return NotFound();
             }
 
-            // var orderVm = new OrderVm
-            // {
-            //     Id = order.Id,
-            //     OrderDate = order.OrderDate,
-            //     UserId = order.UserId,
-            //     TotalDue = order.TotalDue
-            // };
-
             var orderDetails =await _context.OrderDetails
             .Where(od => od.OrderId ==id)
             .Join(
@@ -78,17 +70,27 @@ namespace MyShop.Backend.Controllers
                     total = od.UnitPrice * od.OrderQty
                 }            
             ).ToListAsync();
-
-
             return orderDetails;
         }
 
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<ActionResult<OrderVm>> PostOrder(OrderCreateRequest orderCreateRequest)
+        public async Task<ActionResult<OrderVm>> PostOrder()
         {
-            if (orderCreateRequest.OrderDetails.Count == 0)
+            
+
+            var Carts = await _context.Carts
+                .Where(c => c.UserID == _userUtility.GetUserId())
+                .Select(x => new Cart{
+                    Id = x.Id,
+                    ProductId = x.ProductId,
+                    UserID = x.UserID,
+                    ProductQty = x.ProductQty                    
+                })
+                .ToListAsync();
+
+            if (Carts.Count == 0)
             {
                 return NotFound();
             };
@@ -96,16 +98,16 @@ namespace MyShop.Backend.Controllers
             decimal total = 0;
             List<OrderDetail> orderDetails = new List<OrderDetail>();
 
-            foreach (var i in orderCreateRequest.OrderDetails)
+            foreach (var i in Carts)
             {
                 var product = await _context.Products.FindAsync(i.ProductId);
-                total += product.Price * i.OrderQty;
+                total += product.Price * i.ProductQty;
 
                 orderDetails.Add(new OrderDetail
                 {
                     ProductId = i.ProductId,
                     UnitPrice = product.Price,
-                    OrderQty = i.OrderQty
+                    OrderQty = i.ProductQty
                 });
             };
 
@@ -118,6 +120,10 @@ namespace MyShop.Backend.Controllers
 
             };
 
+            Carts.ForEach(x => {
+                _context.Carts.Remove(x);
+            });
+            
             _context.OrderHeaders.Add(order);
             await _context.SaveChangesAsync();
 
