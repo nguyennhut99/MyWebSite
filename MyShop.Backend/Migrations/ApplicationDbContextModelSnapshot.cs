@@ -169,6 +169,31 @@ namespace MyShop.Backend.Migrations
                     b.ToTable("Brands");
                 });
 
+            modelBuilder.Entity("MyShop.Backend.Models.Cart", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductQty")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("Carts");
+                });
+
             modelBuilder.Entity("MyShop.Backend.Models.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -398,6 +423,23 @@ namespace MyShop.Backend.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("MyShop.Backend.Models.Cart", b =>
+                {
+                    b.HasOne("MyShop.Backend.Models.Product", "product")
+                        .WithMany("Carts")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MyShop.Backend.Models.User", "User")
+                        .WithMany("Carts")
+                        .HasForeignKey("UserID");
+
+                    b.Navigation("product");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("MyShop.Backend.Models.OrderDetail", b =>
                 {
                     b.HasOne("MyShop.Backend.Models.OrderHeader", "OrderHeader")
@@ -468,9 +510,16 @@ namespace MyShop.Backend.Migrations
 
             modelBuilder.Entity("MyShop.Backend.Models.Product", b =>
                 {
+                    b.Navigation("Carts");
+
                     b.Navigation("OrderDetails");
 
                     b.Navigation("ProductCategories");
+                });
+
+            modelBuilder.Entity("MyShop.Backend.Models.User", b =>
+                {
+                    b.Navigation("Carts");
                 });
 #pragma warning restore 612, 618
         }

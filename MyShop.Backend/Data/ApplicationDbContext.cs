@@ -20,6 +20,7 @@ namespace MyShop.Backend.Data
         public DbSet<ProductCategory> ProductCategory { get; set; }
         public DbSet<OrderHeader> OrderHeaders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
+        public DbSet<Cart> Carts { get; set; }
         
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -48,6 +49,16 @@ namespace MyShop.Backend.Data
                 .HasOne(od => od.OrderHeader)
                 .WithMany(p => p.OrderDetails)
                 .HasForeignKey(od => od.OrderId);
+
+            modelBuilder.Entity<Cart>()
+                .HasOne(c => c.product)
+                .WithMany(p => p.Carts)
+                .HasForeignKey(c => c.ProductId);
+            
+            modelBuilder.Entity<Cart>()
+                .HasOne(c => c.User)
+                .WithMany(u => u.Carts)
+                .HasForeignKey(c => c.UserID);
         }
     }
 }

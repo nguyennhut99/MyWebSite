@@ -1,6 +1,6 @@
 namespace MyShop.Share
 {
-    public class OrderDetailCreateRequest
+    public class CartCreateRequest
     {       
         public int ProductId {get; set;}
 

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 
 namespace MyShop.Backend.Models
@@ -14,5 +15,7 @@ namespace MyShop.Backend.Models
 
         [PersonalData]
         public string FullName { get; set; }
+
+        public IList<Cart> Carts { get; private set; } = new List<Cart>();
     }
 }
