@@ -45,6 +45,24 @@ namespace MyShop.Backend.Controllers
                 .ToListAsync();
         }
 
+        [HttpGet("Category/{CategoryId}")]
+        [AllowAnonymous]
+        public async Task<ActionResult<IEnumerable<ProductVm>>> GetProductByCategory(int CategoryId)
+        {
+            return await _context.ProductCategory
+                .Include(p => p.Product)     
+                .Where(p => p.CategoryId == CategoryId)           
+                .Select(x => new ProductVm
+                {
+                    Id = x.Product.Id,
+                    Name = x.Product.Name,
+                    Price = x.Product.Price,
+                    Description = x.Product.Description,
+                    ThumbnailImageUrl =  Path.Combine("https://localhost:44358/images", x.Product.ImageFileName)                    
+                })
+                .ToListAsync();
+        }
+
         [HttpGet("{id}")]
         [AllowAnonymous]
         public async Task<ActionResult<ProductVm>> GetProduct(int id)
