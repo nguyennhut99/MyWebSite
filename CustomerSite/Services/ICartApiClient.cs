@@ -10,5 +10,6 @@ namespace CustomerSite.Services
         Task<IList<CartVM>> AddProductToCart(int productId, int orderQty);
         Task<IList<CartVM>> RemoveCart(int cartId);
         Task<IList<CartVM>> UpdateCart(int cartId, int Qty);
+        Task<IList<CartVM>> Checkout();
     }
 }

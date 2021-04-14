@@ -20,25 +20,6 @@
     {
       var thanhtien = cartitem.OrderQty * cartitem.ProductPrice;
       total += thanhtien;
-
-      @* <tr>
-        <form method="POST">
-        <td>@(stt++)</td>
-        <td>@cartitem.ProductName</td>
-        <td>@(cartitem.ProductPrice.ToString("n0"))</td>
-        <td><input asp-for="@cartitem.OrderQty" id="@($"quantity-{cartitem.Id}")"/></td>
-        <td>@(thanhtien.ToString("n0"))</td>
-
-        <td>
-        <button class="btn btn-success updatecartitem"
-        data-cartId="@cartitem.Id">Cập nhật</button>
-
-        <a class="btn btn-danger" asp-controller="Cart" asp-action="RemoveCart" asp-route-cartId="@cartitem.Id">
-        Xóa
-        </a>
-        </td>
-        </form>
-        </tr> *@
       <tr>
         @using (Html.BeginForm("UpdateCart", "Cart"))
         {
@@ -66,30 +47,7 @@
     </tr>
   </table>
 
-  <a asp-controller="Product" asp-action="Checkout" class="btn btn-success">Gửi đơn hàng</a>
-
-  @* @section Scripts {
-    <script>
-    $(document).ready(function () {
-    $(".updatecartitem").click(function (event) {
-    event.preventDefault();
-    var cartid = $(this).attr("data-cartId");
-    var quantity = $("#quantity-" + cartid).val();
-    $.ajax({
-    type: "POST",
-    url:"@Url.RouteUrl("updateCart")",
-    data: {
-    productid: productid,
-    quantity:quantity
-    },
-    success: function (result) {
-    window.location.href = "@Url.RouteUrl("Cart")";
-    }
-    });
-    });
-    });
-    </script>
-    } *@
+  <a asp-controller="Cart" asp-action="Checkout" class="btn btn-success">Gửi đơn hàng</a>
 }
 else
 {

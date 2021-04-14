@@ -59,6 +59,16 @@ namespace CustomerSite.Controllers
 
         }
 
+        public async Task<IActionResult> Checkout()
+        {
+            await _cartApiClient.Checkout();
+            
+            return Redirect("../Cart/CartsView");
+
+        }
+
+
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

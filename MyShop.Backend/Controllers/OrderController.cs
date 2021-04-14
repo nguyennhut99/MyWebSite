@@ -78,7 +78,10 @@ namespace MyShop.Backend.Controllers
         [AllowAnonymous]
         public async Task<ActionResult<OrderVm>> PostOrder()
         {
-            
+            if (_userUtility.GetUserId() == null)
+            {
+                return NotFound();
+            }
 
             var Carts = await _context.Carts
                 .Where(c => c.UserID == _userUtility.GetUserId())
@@ -134,7 +137,7 @@ namespace MyShop.Backend.Controllers
             });
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetOrder", new { id = order.Id }, new OrderVm { Id = order.Id });
+            return NoContent();
         }
 
         [HttpDelete("{id}")]

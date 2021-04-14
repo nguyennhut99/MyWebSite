@@ -72,6 +72,16 @@ namespace CustomerSite.Services
             return await response.Content.ReadAsAsync<IList<CartVM>>();
         }
 
-        
+        public async Task<IList<CartVM>> Checkout()
+        {
+            var accessToken = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
+            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+            var response = await _client.PostAsJsonAsync($"https://localhost:44358/api/Order","");
+
+            response.EnsureSuccessStatusCode();
+
+            return await response.Content.ReadAsAsync<IList<CartVM>>();
+        }
     }
 }
