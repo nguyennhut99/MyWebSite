@@ -57,6 +57,7 @@ namespace MyShop.Backend.Controllers
                     Id = x.Product.Id,
                     Name = x.Product.Name,
                     Price = x.Product.Price,
+                    CategoryId = CategoryId,
                     Description = x.Product.Description,
                     ThumbnailImageUrl =  Path.Combine("https://localhost:44358/images", x.Product.ImageFileName)                    
                 })

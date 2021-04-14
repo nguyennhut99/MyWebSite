@@ -3,6 +3,8 @@
 <ul class="col-md-12 list-unstyled m-0 bg-white border-radius shadow-sm box-list-menu">
     @foreach (var category in Model)
     {
-        <li class="menu-item">@category.Name</li>
+        <li class="menu-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Category" asp-route-id="@category.Id">@category.Name</a>
+        </li>
     }
 </ul>

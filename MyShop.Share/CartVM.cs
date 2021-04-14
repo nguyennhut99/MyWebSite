@@ -10,8 +10,10 @@ namespace MyShop.Share
 
         public decimal ProductPrice { get; set; }
 
+        public int OrderQty { get; set; }
+
         public string ProductDescription { get; set; }
-        
+
         public string ThumbnailImageUrl { get; set; }
 
     }

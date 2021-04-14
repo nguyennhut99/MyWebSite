@@ -1,0 +1,8 @@
+﻿@model IList<MyShop.Share.CartVM>
+
+<form class="form-inline">
+    <a class="btn btn-success my-2 my-sm-6" type="submit" asp-controller="Cart" asp-action="CartsView">
+        <i class="fas fa-shopping-cart"></i> Cart
+        <span class="badge badge-secondary " id="badges">@Model.Count()</span>
+    </a>
+</form>

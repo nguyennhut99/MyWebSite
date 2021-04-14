@@ -13,7 +13,9 @@
                     <h5 class="card-title">@product.Name</h5>
                     <p class="card-text">@product.Description</p>
                     <p><strong>@product.Price</strong> VND</p>
-                    <button class="btn btn-primary product-button" name=@product.Id >ADD TO CART</button>
+                    <a class="btn btn-primary product-button"
+                    asp-controller="Cart" asp-action="AddProductToCart" 
+                    asp-route-productId=@product.Id asp-route-orderQty=1 asp-route-categoryId=@product.CategoryId>ADD TO CART</a>
                 </div>
             </div>
         </div>

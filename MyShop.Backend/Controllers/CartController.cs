@@ -30,61 +30,68 @@ namespace MyShop.Backend.Controllers
         [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<CartVM>>> GetCarts()
         {
-            return await _context.Carts                
+            return await _context.Carts
                 .Where(c => c.UserID == _userUtility.GetUserId())
                 .Include(c => c.product)
                 .Select(x => new CartVM
                 {
-                    Id = x.ProductId,
+                    Id = x.Id,
                     ProductName = x.product.Name,
                     ProductPrice = x.product.Price,
+                    OrderQty = x.ProductQty,
                     ProductDescription = x.product.Description,
                     ThumbnailImageUrl = x.product.ImageFileName
                 })
                 .ToListAsync();
         }
 
-        // [HttpGet("{id}")]
-        // [AllowAnonymous]
-        // public async Task<ActionResult<ProductVm>> GetCart(int id)
-        // {
-        //     var cart = await _context.Carts.FindAsync(id);
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutCart(int id, int newOrderQty)
+        {
+            var cart = await _context.Carts.FindAsync(id);
 
-        //     if (cart == null)
-        //     {
-        //         return NotFound();
-        //     }
+            if (cart == null)
+            {
+                return NotFound();
+            }
 
-        //     var cartVm = new ProductVm
-        //     {
-        //         Id = cart.Id,
-        //         Name = cart.Name
-        //     };
+            if (_userUtility.GetUserId() == null)
+            {
+                return NotFound();
+            }
 
-        //     return cartVm;
-        // }
+            cart.ProductQty = newOrderQty;
+            await _context.SaveChangesAsync();
 
-        // [HttpPut("{id}")]
-        // [Authorize(Roles = "admin")]
-        // public async Task<IActionResult> PutCart(int id, CartCreateRequest cartCreateRequest)
-        // {
-        //     var cart = await _context.Carts.FindAsync(id);
-
-        //     if (cart == null)
-        //     {
-        //         return NotFound();
-        //     }
-
-        //     cart.Name = cartCreateRequest.Name;
-        //     await _context.SaveChangesAsync();
-
-        //     return NoContent();
-        // }
+            return NoContent();
+        }
 
         [HttpPost]
-        [Authorize(Roles = "admin")]
+        [AllowAnonymous]
         public async Task<ActionResult<ProductVm>> PostCart(CartCreateRequest cartCreateRequest)
         {
+            var Product = await _context.Products.FindAsync(cartCreateRequest.ProductId);
+
+            if (Product == null || _userUtility.GetUserId() == null)
+            {
+                return NotFound("userid");
+            }
+
+            var Carts = await _context.Carts
+                .Where(c => c.UserID == _userUtility.GetUserId() && c.ProductId == cartCreateRequest.ProductId)
+                .ToListAsync();
+
+            if (Carts.Count != 0)
+            {
+                Carts[0].ProductQty += cartCreateRequest.OrderQty;
+
+                await _context.SaveChangesAsync();
+
+                return NoContent();
+            }
+
+
+
             var cart = new Cart
             {
                 UserID = _userUtility.GetUserId(),
@@ -99,7 +106,7 @@ namespace MyShop.Backend.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "admin")]
+        [AllowAnonymous]
         public async Task<IActionResult> DeleteCart(int id)
         {
             var cart = await _context.Carts.FindAsync(id);
