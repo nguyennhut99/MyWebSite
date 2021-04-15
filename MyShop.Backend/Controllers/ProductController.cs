@@ -40,7 +40,7 @@ namespace MyShop.Backend.Controllers
                     Name = x.Name,
                     Price = x.Price,
                     Description = x.Description,
-                    ThumbnailImageUrl = x.ImageFileName
+                    ThumbnailImageUrl = Path.Combine("https://localhost:44358/images", x.ImageFileName)
                 })
                 .ToListAsync();
         }
@@ -81,7 +81,7 @@ namespace MyShop.Backend.Controllers
                 Name = product.Name,
                 Price = product.Price,
                 Description = product.Description,
-                ThumbnailImageUrl = product.ImageFileName
+                ThumbnailImageUrl = Path.Combine("https://localhost:44358/images", product.ImageFileName)
             };
 
             return productVm;

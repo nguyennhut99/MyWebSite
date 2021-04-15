@@ -1,0 +1,68 @@
+﻿@model MyShop.Share.ProductVm
+@{
+    ViewData["Title"] = "Home Page";
+}
+<!--Section: Block Content-->
+<section class="mb-5">
+
+    <div class="row">
+        <div class="col-md-6 mb-4 mb-md-0">
+
+            <div id="mdb-lightbox-ui"></div>
+
+            <div class="mdb-lightbox">
+
+                <div class="row product-gallery mx-1">
+
+                    <div class="col-12 mb-0">
+                        <figure class="view overlay rounded z-depth-1 main-img">
+                            <img src="@Model.ThumbnailImageUrl" class="img-fluid z-depth-1">
+                        </figure>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h5>@Model.Name</h5>            
+            <p><span class="mr-1"><strong>@Model.Price.ToString("n0") VND</strong></span></p>
+            <p class="pt-1">@Model.Description</p>
+            <br>
+            @using (Html.BeginForm("AddToCart", "Cart"))
+            {
+                <div class="table-responsive mb-2">
+                    <table class="table table-sm table-borderless">
+                        <tbody>
+                            <tr>
+                                <td class="pl-0 pb-0 w-25">Quantity</td>
+                            </tr>
+                            <tr>
+                                <input type="hidden" name="id" value="@Model.Id">
+                                <td class="pl-0">
+                                    <div class="def-number-input number-input safari_only mb-0">
+                                        <input class="quantity" min="1" name="quantity" value="1" type="number">
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <button type="submit" class="btn btn-primary btn-md mr-1 mb-2">
+                    <i class="fas fa-shopping-cart pr-2"></i>Add to cart
+                </button>
+            }
+        </div>
+
+    </div>
+    <br>
+    <br>
+    <span class="heading">User Rating</span>
+    <span class="fa fa-star checked"></span>
+    <span class="fa fa-star checked"></span>
+    <span class="fa fa-star checked"></span>
+    <span class="fa fa-star checked"></span>
+    <span class="fa fa-star"></span>
+    <br>
+    <p>4.1 average based on 254 reviews.</p>
+    <hr style="border:3px solid #f1f1f1">
+</section>
+<!--Section: Block Content-->

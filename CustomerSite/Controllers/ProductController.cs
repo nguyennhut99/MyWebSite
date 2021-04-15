@@ -11,26 +11,26 @@ using System.IO;
 
 namespace CustomerSite.Controllers
 {
-    public class HomeController : Controller
+    public class ProductController : Controller
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IProductApiClient _productApiClient;
-        public HomeController(ILogger<HomeController> logger, IProductApiClient productApiClient)
+        public ProductController(ILogger<HomeController> logger, IProductApiClient productApiClient)
         {
             _logger = logger;
             _productApiClient = productApiClient;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> ProductView(int id)
         {
-            var Products = await _productApiClient.Getproducts();
+            var Product = await _productApiClient.Getproduct(id);          
 
-            return View(Products);
+            return View(Product);
         }
 
         public async Task<IActionResult> Category(int id)
         {
-            var Products = await _productApiClient.GetProductByCategory(id);
+            var Products = await _productApiClient.GetProductByCategory(id);            
 
             return View(Products);
         }

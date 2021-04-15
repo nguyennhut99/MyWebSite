@@ -8,13 +8,14 @@
     {
         <div class="col-md-3 col-sm-3 col-xs-3 mb-4">
             <div class="card">
-                <a href=""><img class="card-img-top" src=@product.ThumbnailImageUrl></a>
+                <a asp-controller="Product" asp-action="ProductView" asp-route-id=@product.Id>
+                    <img class="card-img-top" src=@product.ThumbnailImageUrl>
+                </a>
                 <div class="card-body">
                     <h5 class="card-title">@product.Name</h5>
                     <p class="card-text">@product.Description</p>
-                    <p><strong>@product.Price</strong> VND</p>
-                    <a class="btn btn-primary product-button"
-                    asp-controller="Cart" asp-action="AddProductToCart" 
+                    <p><strong>@product.Price.ToString("n0")</strong> VND</p>
+                    <a class="btn btn-primary product-button" asp-controller="Cart" asp-action="AddProductToCart"
                     asp-route-productId=@product.Id asp-route-orderQty=1>ADD TO CART</a>
                 </div>
             </div>
