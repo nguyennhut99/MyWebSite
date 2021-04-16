@@ -12,6 +12,10 @@ namespace MyShop.Share
 
         public string Description { get; set; }
 
+        public decimal rating { get; set; }
+
+        public int ratingCount { get; set; }
+
         public string ThumbnailImageUrl { get; set; }
 
     }

@@ -14,6 +14,12 @@ namespace MyShop.Backend.Models
 
         public string ImageFileName { get; set; }
 
+        public decimal rating { get; set; }
+
+        public int ratingCount { get; set; }
+
+        public IList<UserRating> UserRatings { get; private set; } = new List<UserRating>();
+
         public int BrandId { get; set; }
 
         public Brand Brand { get; set; }

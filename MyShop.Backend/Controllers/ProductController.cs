@@ -40,6 +40,7 @@ namespace MyShop.Backend.Controllers
                     Name = x.Name,
                     Price = x.Price,
                     Description = x.Description,
+                    rating = x.rating,
                     ThumbnailImageUrl = Path.Combine("https://localhost:44358/images", x.ImageFileName)
                 })
                 .ToListAsync();
@@ -59,6 +60,7 @@ namespace MyShop.Backend.Controllers
                     Price = x.Product.Price,
                     CategoryId = CategoryId,
                     Description = x.Product.Description,
+                    rating = x.Product.rating,
                     ThumbnailImageUrl =  Path.Combine("https://localhost:44358/images", x.Product.ImageFileName)                    
                 })
                 .ToListAsync();
@@ -81,6 +83,8 @@ namespace MyShop.Backend.Controllers
                 Name = product.Name,
                 Price = product.Price,
                 Description = product.Description,
+                rating = product.rating,
+                ratingCount = product.ratingCount,
                 ThumbnailImageUrl = Path.Combine("https://localhost:44358/images", product.ImageFileName)
             };
 

@@ -17,5 +17,7 @@ namespace MyShop.Backend.Models
         public string FullName { get; set; }
 
         public IList<Cart> Carts { get; private set; } = new List<Cart>();
+
+        public IList<UserRating> UserRatings { get; private set; } = new List<UserRating>();
     }
 }

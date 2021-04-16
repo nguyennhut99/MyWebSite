@@ -282,6 +282,12 @@ namespace MyShop.Backend.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<decimal>("rating")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("ratingCount")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("BrandId");
@@ -370,6 +376,24 @@ namespace MyShop.Backend.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("MyShop.Backend.Models.UserRating", b =>
+                {
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProductId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserRatings");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -498,6 +522,25 @@ namespace MyShop.Backend.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("MyShop.Backend.Models.UserRating", b =>
+                {
+                    b.HasOne("MyShop.Backend.Models.Product", "Product")
+                        .WithMany("UserRatings")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MyShop.Backend.Models.User", "User")
+                        .WithMany("UserRatings")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("MyShop.Backend.Models.Category", b =>
                 {
                     b.Navigation("ProductCategories");
@@ -515,11 +558,15 @@ namespace MyShop.Backend.Migrations
                     b.Navigation("OrderDetails");
 
                     b.Navigation("ProductCategories");
+
+                    b.Navigation("UserRatings");
                 });
 
             modelBuilder.Entity("MyShop.Backend.Models.User", b =>
                 {
                     b.Navigation("Carts");
+
+                    b.Navigation("UserRatings");
                 });
 #pragma warning restore 612, 618
         }
