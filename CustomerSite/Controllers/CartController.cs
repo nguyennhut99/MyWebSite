@@ -9,13 +9,16 @@ using CustomerSite.Models;
 using CustomerSite.Services;
 using System.IO;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CustomerSite.Controllers
 {
+    [Authorize]
     public class CartController : Controller
     {
         private readonly ILogger<CartController> _logger;
         private readonly ICartApiClient _cartApiClient;
+        
         public CartController(ILogger<CartController> logger, ICartApiClient cartApiClient)
         {
             _logger = logger;
