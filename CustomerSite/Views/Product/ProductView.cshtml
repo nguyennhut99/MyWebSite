@@ -23,7 +23,7 @@
             </div>
         </div>
         <div class="col-md-6">
-            <h5>@Model.Name</h5>            
+            <h5>@Model.Name</h5>
             <p><span class="mr-1"><strong>@Model.Price.ToString("n0") VND</strong></span></p>
             <p class="pt-1">@Model.Description</p>
             <br>
@@ -55,14 +55,57 @@
     </div>
     <br>
     <br>
-    <span class="heading">User Rating</span>
-    <span class="fa fa-star checked"></span>
-    <span class="fa fa-star checked"></span>
-    <span class="fa fa-star checked"></span>
-    <span class="fa fa-star checked"></span>
-    <span class="fa fa-star"></span>
+    @if (true)
+    {
+        decimal count = Math.Round(@Model.rating, 0);
+        <span class="heading">User Rating</span>
+        @for (int i = 0; i < 5; i++)
+        {
+            @if (count != 0)
+            {
+                <span class="fa fa-star checked"></span>
+                count--;
+            }
+            else
+            {
+                <span class="fa fa-star"></span>
+            }
+        }
+
+    ;
+    }
     <br>
-    <p>4.1 average based on 254 reviews.</p>
+    <button id="ratingBtn" class="btn btn-outline-warning">Đánh giá</button>
+
+    <!-- The Modal -->
+    <div id="ratingModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="star-rating">
+                        @using (Html.BeginForm("Rating", "Rating"))
+                        {
+                        <span class="fa fa-star-o" data-rating="1"></span>
+                        <span class="fa fa-star-o" data-rating="2"></span>
+                        <span class="fa fa-star-o" data-rating="3"></span>
+                        <span class="fa fa-star-o" data-rating="4"></span>
+                        <span class="fa fa-star-o" data-rating="5"></span>
+                        <input type="hidden" name="rating" class="rating-value" value="1">
+                        <input type="hidden" name="productId" value="@Model.Id">
+                        <button id="submitRating" type="submit" class="btn btn-success">Xác nhận</button>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <p>@Model.rating average based on @Model.ratingCount reviews.</p>
     <hr style="border:3px solid #f1f1f1">
+
+
 </section>
 <!--Section: Block Content-->
