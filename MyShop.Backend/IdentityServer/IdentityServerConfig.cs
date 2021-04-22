@@ -19,7 +19,7 @@ namespace MyShop.Backend.IdentityServer
                   new ApiScope("myshop.api", "My Shop API")
              };
 
-        public static IEnumerable<Client> Clients =>
+        public static IEnumerable<Client> Clients(Dictionary<string, string> clientUrls) =>
             new List<Client>
             {
                 // machine to machine client
@@ -41,9 +41,9 @@ namespace MyShop.Backend.IdentityServer
 
                     AllowedGrantTypes = GrantTypes.Code,
 
-                    RedirectUris = { "https://localhost:44360/signin-oidc" },
+                    RedirectUris = { $"{clientUrls["Mvc"]}/signin-oidc" },
 
-                    PostLogoutRedirectUris = { "https://localhost:44360/signout-callback-oidc" },
+                    PostLogoutRedirectUris = { $"{clientUrls["Mvc"]}/signout-callback-oidc" },
 
                     AllowedScopes = new List<string>
                     {
@@ -62,9 +62,9 @@ namespace MyShop.Backend.IdentityServer
                     RequireConsent = false,
                     RequirePkce = true,
 
-                    RedirectUris =           { $"https://localhost:44358/swagger/oauth2-redirect.html" },
-                    PostLogoutRedirectUris = { $"https://localhost:44358/swagger/oauth2-redirect.html" },
-                    AllowedCorsOrigins =     { $"https://localhost:44358" },
+                    RedirectUris =           { $"{clientUrls["Swagger"]}/swagger/oauth2-redirect.html" },
+                    PostLogoutRedirectUris = { $"{clientUrls["Swagger"]}/swagger/oauth2-redirect.html" },
+                    AllowedCorsOrigins =     { $"{clientUrls["Swagger"]}" },
 
                     AllowedScopes = new List<string>
                     {
@@ -73,6 +73,42 @@ namespace MyShop.Backend.IdentityServer
                         "myshop.api"
                     }
                 },
+
+                new Client
+                {
+                    ClientName = "react_code_client",
+                    ClientId = "react_code_client",
+                    AccessTokenType = AccessTokenType.Reference,
+                    AllowedGrantTypes = GrantTypes.Code,
+                    AllowAccessTokensViaBrowser = true,
+
+                    RequireClientSecret = false,
+                    RequireConsent = false,
+                    RequirePkce = true,
+
+                    RedirectUris = new List<string>
+                    {
+                        $"{clientUrls["React"]}/authentication/login-callback",
+                        $"{clientUrls["React"]}/silent-renew.html",
+                        $"{clientUrls["React"]}"
+                    },
+                    PostLogoutRedirectUris = new List<string>
+                    {
+                        $"{clientUrls["React"]}/unauthorized",
+                        $"{clientUrls["React"]}/authentication/logout-callback",
+                        $"{clientUrls["React"]}"
+                    },
+                    AllowedCorsOrigins = new List<string>
+                    {
+                        $"{clientUrls["React"]}"
+                    },
+                    AllowedScopes = new List<string>
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        "myshop.api"
+                    }
+                }
             };
     }
 }
