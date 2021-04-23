@@ -49,7 +49,7 @@ namespace CustomerSite.Controllers
             int Qty =  Convert.ToInt32(form["quantity"]);
             await _cartApiClient.AddProductToCart(Id, Qty);
             
-            return Redirect($"../Product/Index/{Id}");
+            return Redirect($"../Product/ProductView/{Id}");
 
         }
 
