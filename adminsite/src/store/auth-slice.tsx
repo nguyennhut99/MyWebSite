@@ -39,7 +39,7 @@ export const loginAsync = (): AppThunk => async (dispatch) => {
 export const completeLoginAsync = (): AppThunk => async (dispatch) => {
   await authService.completeLoginAsync(window.location.href);
   const user = await authService.getUserAsync();
-  console.log(user);
+  localStorage.setItem("__token", 'Bearer' + ` ${user?.access_token}`);
   dispatch(loginSuccess({ name: user?.profile.name } as IUser));
 };
 

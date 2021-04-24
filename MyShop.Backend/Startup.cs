@@ -66,7 +66,13 @@ namespace MyShop.Backend
                .AddAspNetIdentity<User>()    
                .AddProfileService<CustomProfileService>()        
                .AddDeveloperSigningCredential(); // not recommended for production - you need to store your key material somewhere secure
-
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAnyOrigin", builder => builder
+                    .AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader());
+            });
             services.AddAuthentication()
                 .AddLocalApi("Bearer", option =>
                 {
@@ -136,6 +142,7 @@ namespace MyShop.Backend
 
             app.UseIdentityServer();
             app.UseAuthorization();
+            app.UseCors("AllowAnyOrigin");
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>

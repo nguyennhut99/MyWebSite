@@ -19,7 +19,6 @@ export class AuthService {
   }
 
   public getUserAsync(): Promise<User | null> {
-    console.log(this.userManager)
     return this.userManager.getUser();
   }
 
