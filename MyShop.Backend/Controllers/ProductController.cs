@@ -41,7 +41,7 @@ namespace MyShop.Backend.Controllers
                     Price = x.Price,
                     Description = x.Description,
                     rating = x.rating,
-                    ThumbnailImageUrl = Path.Combine("https://localhost:44358/images", x.ImageFileName)
+                    ThumbnailImageUrl = x.ImageFileName==null?"":Path.Combine("https://localhost:44358/images", x.ImageFileName)
                 })
                 .ToListAsync();
         }
@@ -61,7 +61,8 @@ namespace MyShop.Backend.Controllers
                     CategoryId = CategoryId,
                     Description = x.Product.Description,
                     rating = x.Product.rating,
-                    ThumbnailImageUrl =  Path.Combine("https://localhost:44358/images", x.Product.ImageFileName)                    
+                    ThumbnailImageUrl =  x.Product.ImageFileName==null?"":Path.Combine("https://localhost:44358/images", x.Product.ImageFileName)
+                                        
                 })
                 .ToListAsync();
         }
@@ -105,6 +106,7 @@ namespace MyShop.Backend.Controllers
             product.Name = productCreateRequest.Name;
             product.Price = productCreateRequest.Price;
             product.Description = productCreateRequest.Description;
+            product.BrandId = productCreateRequest.BrandId;
 
             await _storageService.DeleteFileAsync(product.ImageFileName);
             if (productCreateRequest.ThumbnailImageUrl != null)
@@ -165,7 +167,7 @@ namespace MyShop.Backend.Controllers
             }
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetProduct", new { id = product.Id }, new ProductVm { Id = product.Id, Name = product.Name });
+            return Ok();
         }
 
         [HttpDelete("{id}")]
