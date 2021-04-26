@@ -41,7 +41,7 @@ namespace MyShop.Backend.Controllers
                     Price = x.Price,
                     Description = x.Description,
                     rating = x.rating,
-                    ThumbnailImageUrl = x.ImageFileName==null?"":Path.Combine("https://localhost:44358/images", x.ImageFileName)
+                    ThumbnailImageUrl = x.ImageFileName == null ? "" : Path.Combine("https://localhost:44358/images", x.ImageFileName)
                 })
                 .ToListAsync();
         }
@@ -51,8 +51,8 @@ namespace MyShop.Backend.Controllers
         public async Task<ActionResult<IEnumerable<ProductVm>>> GetProductByCategory(int CategoryId)
         {
             return await _context.ProductCategory
-                .Include(p => p.Product)     
-                .Where(p => p.CategoryId == CategoryId)           
+                .Include(p => p.Product)
+                .Where(p => p.CategoryId == CategoryId)
                 .Select(x => new ProductVm
                 {
                     Id = x.Product.Id,
@@ -61,8 +61,8 @@ namespace MyShop.Backend.Controllers
                     CategoryId = CategoryId,
                     Description = x.Product.Description,
                     rating = x.Product.rating,
-                    ThumbnailImageUrl =  x.Product.ImageFileName==null?"":Path.Combine("https://localhost:44358/images", x.Product.ImageFileName)
-                                        
+                    ThumbnailImageUrl = x.Product.ImageFileName == null ? "" : Path.Combine("https://localhost:44358/images", x.Product.ImageFileName)
+
                 })
                 .ToListAsync();
         }
@@ -108,16 +108,20 @@ namespace MyShop.Backend.Controllers
             product.Description = productCreateRequest.Description;
             product.BrandId = productCreateRequest.BrandId;
 
-            await _storageService.DeleteFileAsync(product.ImageFileName);
             if (productCreateRequest.ThumbnailImageUrl != null)
             {
+                await _storageService.DeleteFileAsync(product.ImageFileName);
                 product.ImageFileName = await SaveFile(productCreateRequest.ThumbnailImageUrl);
+            }
+            else
+            {
+                product.ImageFileName = product.ImageFileName;
             }
 
             _context.ProductCategory.RemoveRange(
-                await _context.ProductCategory.Where(i=> i.ProductId.Equals(id))
+                await _context.ProductCategory.Where(i => i.ProductId.Equals(id))
                 .ToListAsync()
-            );
+                );
 
             foreach (var Id in productCreateRequest.CategoryId)
             {

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from 'react-router-dom';
-import { add_product, selectBrandList, get_Brand_List } from "../store/Product-slice";
+import { selectBrandList, get_Brand_List, selectProduct, get_product, update_product, getProduct } from "../store/Product-slice";
 import { get_Categories, selectCategories } from "../store/category-slice";
 
 const AddProductForm = () => {
@@ -9,30 +9,18 @@ const AddProductForm = () => {
 
     const categories = useSelector(selectCategories);
     const brands = useSelector(selectBrandList);
+    const productOld = useSelector(selectProduct);
 
     const dispatch = useDispatch();
     useEffect(() => {
+        var url = new URL(window.location.href);
+        dispatch(get_product(url.searchParams.get("id")))
         dispatch(get_Categories());
         dispatch(get_Brand_List());
     }, [dispatch]);
 
-    useEffect(() => {
-        try {
-            if (product.categoryId == 0 || product.brandId == 0) {
-                product.brandId = brands[0].id;
-                product.categoryId = categories[0].id
-                setProduct({
-                    ...product,
-                    brandId: brands[0].id,
-                    categoryId: categories[0].id
-                });
-            }
-        } catch (error) {
-
-        }
-    });
-
     const [product, setProduct] = useState({
+        productId: 0,
         productName: "",
         Price: 0,
         description: "",
@@ -40,9 +28,26 @@ const AddProductForm = () => {
         brandId: 0
     });
 
-    const [formData, setFormData] = useState(new FormData());
+    useEffect(() => {
+        try {
+            if (product.productId != productOld.id || product.categoryId == 0 || product.brandId == 0) {
+                setProduct({
+                    ...product,
+                    ["productId"]: productOld.id,
+                    ["brandId"]: brands[0].id,
+                    ["categoryId"]: categories[0].id,
+                    ["productName"]: productOld.name,
+                    ["Price"]: productOld.price,
+                    ["description"]: productOld.description,
+                });
+            }
 
-    const [image, setImage] = useState({});
+        } catch (error) {
+
+        }
+    });
+
+    const [formData, setFormData] = useState(new FormData());
 
     const handleChangeFileImages = (e) => {
         const formData = new FormData();
@@ -62,25 +67,24 @@ const AddProductForm = () => {
     }
 
     const handleSubmit = async (e) => {
-        try {
-            e.preventDefault();
-            const formDataSubmit = formData;
-            formDataSubmit.append('Name', product.productName);
-            formDataSubmit.append('Description', product.description);
-            formDataSubmit.append('Price', product.Price);
-            formDataSubmit.append('CategoryId', product.categoryId);
-            formDataSubmit.append('BrandId', product.brandId);
-            dispatch(add_product(formDataSubmit))
-            history.push("/")
-        } catch (error) {
-            console.log(error)
-        }
-
+        e.preventDefault();
+        const formDataSubmit = formData;
+        formDataSubmit.append('Name', product.productName);
+        formDataSubmit.append('Description', product.description);
+        formDataSubmit.append('Price', product.Price);
+        formDataSubmit.append('CategoryId', product.categoryId);
+        formDataSubmit.append('BrandId', product.brandId);
+        dispatch(update_product(product.productId, formDataSubmit))
+        history.push("/")
     };
 
     return (
         <div>
             <form onSubmit={handleSubmit}>
+                <div className="form-group">
+                    <label>Product Id</label>
+                    <input type="text" className="form-control" name="productId" value={product.productId} onChange={handleChange} readonly disabled />
+                </div>
                 <div className="form-group">
                     <label>Product Name</label>
                     <input type="text" className="form-control" name="productName" value={product.productName} onChange={handleChange} required />
@@ -119,9 +123,9 @@ const AddProductForm = () => {
                 </div>
                 <div className="form-group">
                     <label>Image</label>
-                    <input type='file' multiple className="form-control" onChange={handleChangeFileImages} required/>
+                    <input type='file' multiple className="form-control" onChange={handleChangeFileImages} />
                 </div>
-                <button type="submit" className="btn btn-primary">Submit</button>
+                <button type="submit" className="btn btn-primary">Update</button>
             </form>
         </div>
     );

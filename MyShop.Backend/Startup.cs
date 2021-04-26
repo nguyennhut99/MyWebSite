@@ -135,14 +135,15 @@ namespace MyShop.Backend
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            app.UseCors("AllowAnyOrigin");
+            
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
 
             app.UseIdentityServer();
-            app.UseAuthorization();
-            app.UseCors("AllowAnyOrigin");
+            app.UseAuthorization();            
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
