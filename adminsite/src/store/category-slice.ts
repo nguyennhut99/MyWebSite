@@ -3,23 +3,27 @@ import api from '../api/api';
 import { AppThunk, RootState } from "./store";
 
 const initialState = {
-    categories: []
+    categories: [],
+    category: {}
 }
 
-export const   categorySlice = createSlice({
+export const categorySlice = createSlice({
     name: "category",
     initialState,
     reducers: {
         getcategories: (state, { payload }) => {
             state.categories = payload.data;
         },
+        getCategory : (state, { payload }) => {
+            state.category = payload.data;
+        },
     },
 });
 
-export const { getcategories } =   categorySlice.actions;
+export const { getcategories, getCategory } = categorySlice.actions;
 
 
-export const getCategories = (): AppThunk=> async  (dispatch) => {
+export const get_Categories = (): AppThunk => async (dispatch) => {
     try {
         const data = await (await api.Category.getAllCategory()).data;
         dispatch(getcategories({ data }));
@@ -29,19 +33,52 @@ export const getCategories = (): AppThunk=> async  (dispatch) => {
     }
 };
 
-// export const delete_product = (id: number): AppThunk=> async  (dispatch) => {
-//     try {
-//         await api.Product.deleteProduct(id)
-//         const data = await (await api.Product.getAllProducts()).data;
-//         dispatch(getProducts({ data }));
+export const get_Category = (id: number): AppThunk => async (dispatch) => {
+    try {
+        const data = await (await api.Category.getCategory(id )).data;
+        dispatch(getCategory({ data }));
 
-//     } catch (error) {
-//         console.log(error);
-//     }
-// };
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const add_category = (content: any): AppThunk => async (dispatch) => {
+    try {
+        await api.Category.addCategory(content)
+        const data = await (await api.Category.getAllCategory()).data;
+        dispatch(getcategories({ data }));
+
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const delete_Category = (id: number): AppThunk => async (dispatch) => {
+    try {
+        await api.Category.deleteCategory(id)
+        const data = await (await api.Category.getAllCategory()).data;
+        dispatch(getcategories({ data }));
+
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const update_category = (id: number, content: any): AppThunk => async (dispatch) => {
+    try {
+        await api.Category.updateCategory(id, content)
+        const data = await (await api.Category.getAllCategory()).data;
+        dispatch(getcategories({ data }));
+
+    } catch (error) {
+        console.log(error);
+    }
+};
 
 
 
 export const selectCategories = (state: RootState) => state.category.categories;
+export const selectCategory = (state: RootState) => state.category.category;
 
-export default   categorySlice.reducer;
+export default categorySlice.reducer;
