@@ -40,8 +40,10 @@ namespace MyShop.Backend.Controllers
                     Name = x.Name,
                     Price = x.Price,
                     Description = x.Description,
-                    rating = x.rating,
-                    ThumbnailImageUrl = x.ImageFileName == null ? "" : Path.Combine("https://localhost:44358/images", x.ImageFileName)
+                    Rating = x.Rating,
+                    ThumbnailImageUrl = x.ImageFileName == null ? "" : Path.Combine("https://localhost:44358/images", x.ImageFileName),
+                    CreateDate = x.CreateDate.ToString("dd'/'MM'/'yyyy HH:mm:ss"),
+                    ModifyDate = x.ModifyDate==DateTime.MinValue?"null":x.ModifyDate.ToString("dd'/'MM'/'yyyy HH:mm:ss")
                 })
                 .ToListAsync();
         }
@@ -60,9 +62,10 @@ namespace MyShop.Backend.Controllers
                     Price = x.Product.Price,
                     CategoryId = CategoryId,
                     Description = x.Product.Description,
-                    rating = x.Product.rating,
-                    ThumbnailImageUrl = x.Product.ImageFileName == null ? "" : Path.Combine("https://localhost:44358/images", x.Product.ImageFileName)
-
+                    Rating = x.Product.Rating,
+                    ThumbnailImageUrl = x.Product.ImageFileName == null ? "" : Path.Combine("https://localhost:44358/images", x.Product.ImageFileName),
+                    CreateDate = x.Product.CreateDate.ToString("dd'/'MM'/'yyyy HH:mm:ss"),
+                    ModifyDate = x.Product.ModifyDate==DateTime.MinValue?"null":x.Product.ModifyDate.ToString("dd'/'MM'/'yyyy HH:mm:ss")
                 })
                 .ToListAsync();
         }
@@ -84,9 +87,11 @@ namespace MyShop.Backend.Controllers
                 Name = product.Name,
                 Price = product.Price,
                 Description = product.Description,
-                rating = product.rating,
-                ratingCount = product.ratingCount,
-                ThumbnailImageUrl = Path.Combine("https://localhost:44358/images", product.ImageFileName)
+                Rating = product.Rating,
+                RatingCount = product.RatingCount,
+                ThumbnailImageUrl = Path.Combine("https://localhost:44358/images", product.ImageFileName),
+                CreateDate = product.CreateDate.ToString("dd'/'MM'/'yyyy HH:mm:ss"),
+                ModifyDate = product.ModifyDate==DateTime.MinValue?"null":product.ModifyDate.ToString("dd'/'MM'/'yyyy HH:mm:ss")
             };
 
             return productVm;
@@ -107,6 +112,7 @@ namespace MyShop.Backend.Controllers
             product.Price = productCreateRequest.Price;
             product.Description = productCreateRequest.Description;
             product.BrandId = productCreateRequest.BrandId;
+            product.ModifyDate = DateTime.Now;
 
             if (productCreateRequest.ThumbnailImageUrl != null)
             {
@@ -149,7 +155,8 @@ namespace MyShop.Backend.Controllers
                 Name = productCreateRequest.Name,
                 Price = productCreateRequest.Price,
                 Description = productCreateRequest.Description,
-                BrandId = productCreateRequest.BrandId
+                BrandId = productCreateRequest.BrandId,
+                CreateDate = DateTime.Now,
             };
 
             if (productCreateRequest.ThumbnailImageUrl != null)

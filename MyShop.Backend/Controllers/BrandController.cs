@@ -97,7 +97,7 @@ namespace MyShop.Backend.Controllers
             _context.Brands.Remove(brand);
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return Ok();
         }
     }
 }

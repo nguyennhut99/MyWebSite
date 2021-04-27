@@ -1,3 +1,5 @@
+using System;
+
 namespace MyShop.Share
 {
     public class ProductVm
@@ -12,9 +14,13 @@ namespace MyShop.Share
 
         public string Description { get; set; }
 
-        public decimal rating { get; set; }
+        public string CreateDate { get; set; }
 
-        public int ratingCount { get; set; }
+        public string ModifyDate { get; set; }
+
+        public decimal Rating { get; set; }
+
+        public int RatingCount { get; set; }
 
         public string ThumbnailImageUrl { get; set; }
 

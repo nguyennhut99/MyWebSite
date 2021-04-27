@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace MyShop.Backend.Models
@@ -14,9 +15,13 @@ namespace MyShop.Backend.Models
 
         public string ImageFileName { get; set; }
 
-        public decimal rating { get; set; }
+        public DateTime CreateDate { get; set; }
 
-        public int ratingCount { get; set; }
+        public DateTime ModifyDate { get; set; }
+
+        public decimal Rating { get; set; }
+
+        public int RatingCount { get; set; }
 
         public IList<UserRating> UserRatings { get; private set; } = new List<UserRating>();
 

@@ -70,8 +70,8 @@ namespace MyShop.Backend.Controllers
                 totalRating += x.Rating;
             });
 
-            product.rating = totalRating/ ListRating.Count();            
-            product.ratingCount = ListRating.Count();
+            product.Rating = totalRating/ ListRating.Count();            
+            product.RatingCount = ListRating.Count();
             await _context.SaveChangesAsync();
 
             return Ok();

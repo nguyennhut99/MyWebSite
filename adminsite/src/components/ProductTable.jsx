@@ -24,7 +24,9 @@ const ProductTable = () => {
             <th>Thumbnail Image</th>
             <th>Name</th>
             <th>Price</th>
-            <th>Rating</th>
+            <th>Description</th> 
+            <th>Create Date</th>   
+            <th>Modify Date</th>        
             <th></th>
           </tr>
           {ProductList.map((product) => (
@@ -33,7 +35,9 @@ const ProductTable = () => {
               <td><img src={product.thumbnailImageUrl} alt="..." className="img-thumbnail" /></td>
               <td>{product.name}</td>
               <td>{product.price}</td>
-              <td>{product.rating}</td>
+              <td>{product.description}</td>
+              <td>{product.createDate}</td>
+              <td>{product.modifyDate}</td>
               <td>
                 <button className="btn btn-success" onClick={() => history.push("/update-product?id=" + product.id)}>Cập nhật</button>
 
