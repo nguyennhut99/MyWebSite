@@ -25,4 +25,10 @@ const Brand = {
     getAllBrand: async () => await axios.get("/api/Brand"),
 }
 
-export default { Product, Category, Brand };
+const User = {
+    getAllUser: async () => await axios.get("/api/User",config),
+    getOders: async (id: string) => await axios.get(`/api/User/${id}`,config),
+    getOderDetail: async (id: number) => await axios.get(`/api/User/Order/${id}`,config),
+}
+
+export default { Product, Category, Brand, User };

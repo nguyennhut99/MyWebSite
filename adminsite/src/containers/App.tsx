@@ -1,4 +1,4 @@
-import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 import About from "../components/About";
 import NavMenu from "./NavMenu";
 import Auth from "./Auth";
@@ -9,6 +9,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import AddProductForm from "../components/AddProductForm";
 import UpdateProductForm from "../components/UpdateProductForm";
 import UpdateCategory from "../components/UpdateCategory";
+import UserManagement from "../components/UserManagement";
+import UserDetail from "../components/UserOrder";
+import OrderDetail from "../components/OrderDetail";
 
 const App = () => {
   return (
@@ -24,6 +27,9 @@ const App = () => {
             <Route path="/about" component={About} />
             <Route path="/category" component={CategoryTable} />
             <Route path="/update-category" component={UpdateCategory} />
+            <Route path="/user-management" component={UserManagement} />
+            <Route path="/user-detail" component={UserDetail} />
+            <Route path="/order-detail" component={OrderDetail} />
             <Route path="/" component={ProductTable} />
           </Switch>
         </div>
