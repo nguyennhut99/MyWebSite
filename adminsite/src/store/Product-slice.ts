@@ -24,6 +24,15 @@ export const ProductReducer = createSlice({
     },
 });
 
+function checkEror(e: any) {
+    if(e.response.status == 401){
+        window.location.href="/authentication/login"
+    }
+    if(e.response.status == 403){
+        window.alert("tài khoảng không đủ quyền");
+    }
+}
+
 export const { getProducts, getBrands, getProduct } = ProductReducer.actions;
 
 
@@ -33,7 +42,7 @@ export const get_product_list = (): AppThunk => async (dispatch) => {
         dispatch(getProducts({ data }));
 
     } catch (error) {
-        console.log(error);
+        checkEror(error) 
     }
 };
 
@@ -43,7 +52,7 @@ export const get_product = (id: number): AppThunk => async (dispatch) => {
         dispatch(getProduct({ data }));
 
     } catch (error) {
-        console.log(error);
+        checkEror(error) 
     }
 };
 
@@ -54,7 +63,7 @@ export const add_product = (content: any): AppThunk => async (dispatch) => {
         dispatch(getProducts({ data }));
 
     } catch (error) {
-        console.log(error);
+        checkEror(error) 
     }
 };
 
@@ -65,7 +74,7 @@ export const update_product = (id: number, content: any): AppThunk => async (dis
         dispatch(getProducts({ data }));
 
     } catch (error) {
-        console.log(error);
+        checkEror(error) 
     }
 };
 
@@ -76,7 +85,7 @@ export const delete_product = (id: number): AppThunk => async (dispatch) => {
         dispatch(getProducts({ data }));
 
     } catch (error) {
-        console.log(error);
+        checkEror(error) 
     }
 };
 
@@ -86,7 +95,7 @@ export const get_Brand_List = (): AppThunk => async (dispatch) => {
         dispatch(getBrands({ data }));
 
     } catch (error) {
-        console.log(error);
+        checkEror(error) 
     }
 };
 

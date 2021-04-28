@@ -8,6 +8,15 @@ const initialState = {
     orderDetail: []
 }
 
+function checkEror(e: any) {
+    if(e.response.status == 401){
+        window.location.href="/authentication/login"
+    }
+    if(e.response.status == 403){
+        window.alert("tài khoảng không đủ quyền");
+    }
+}
+
 export const userSlice = createSlice({
     name: "user",
     initialState,
@@ -33,7 +42,7 @@ export const get_Users = (): AppThunk => async (dispatch) => {
         dispatch(getUsers({ data }));
 
     } catch (error) {
-        console.log(error);
+        checkEror(error)
     }
 };
 
@@ -43,7 +52,7 @@ export const get_Orders = (id: string): AppThunk => async (dispatch) => {
         dispatch(getOrders({ data }));
 
     } catch (error) {
-        console.log(error);
+        checkEror(error)
     }
 };
 
@@ -53,7 +62,7 @@ export const get_OrderDetail = (id: number): AppThunk => async (dispatch) => {
         dispatch(orderDetail({ data }));
 
     } catch (error) {
-        console.log(error);
+        checkEror(error)
     }
 };
 

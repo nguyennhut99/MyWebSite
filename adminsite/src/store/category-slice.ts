@@ -7,6 +7,15 @@ const initialState = {
     category: {}
 }
 
+function checkEror(e: any) {
+    if(e.response.status == 401){
+        window.location.href="/authentication/login"
+    }
+    if(e.response.status == 403){
+        window.alert("tài khoảng không đủ quyền");
+    }
+}
+
 export const categorySlice = createSlice({
     name: "category",
     initialState,
@@ -29,7 +38,7 @@ export const get_Categories = (): AppThunk => async (dispatch) => {
         dispatch(getcategories({ data }));
 
     } catch (error) {
-        console.log(error);
+        checkEror(error)
     }
 };
 
@@ -39,7 +48,7 @@ export const get_Category = (id: number): AppThunk => async (dispatch) => {
         dispatch(getCategory({ data }));
 
     } catch (error) {
-        console.log(error);
+        checkEror(error) 
     }
 };
 
@@ -50,7 +59,7 @@ export const add_category = (content: any): AppThunk => async (dispatch) => {
         dispatch(getcategories({ data }));
 
     } catch (error) {
-        console.log(error);
+        checkEror(error) 
     }
 };
 
@@ -61,7 +70,7 @@ export const delete_Category = (id: number): AppThunk => async (dispatch) => {
         dispatch(getcategories({ data }));
 
     } catch (error) {
-        console.log(error);
+        checkEror(error) 
     }
 };
 
@@ -72,7 +81,7 @@ export const update_category = (id: number, content: any): AppThunk => async (di
         dispatch(getcategories({ data }));
 
     } catch (error) {
-        console.log(error);
+        checkEror(error) 
     }
 };
 
