@@ -1,5 +1,4 @@
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import About from "../components/About";
 import NavMenu from "./NavMenu";
 import Auth from "./Auth";
 import VerticalTabs from "../components/VerticalTabs"
@@ -24,7 +23,6 @@ const App = () => {
             <Route path="/update-product" component={UpdateProductForm} />
             <Route path="/add-product" component={AddProductForm} />
             <Route path="/authentication" component={Auth} />
-            <Route path="/about" component={About} />
             <Route path="/category" component={CategoryTable} />
             <Route path="/update-category" component={UpdateCategory} />
             <Route path="/user-management" component={UserManagement} />

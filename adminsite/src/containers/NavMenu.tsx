@@ -27,7 +27,7 @@ const NavMenu = () => {
             <span className="navbar-toggler-icon"></span>
           </button>
           <div className="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-            <LoginMenu isAuthenticated={isAuthenticated} userName={userName} />
+            <LoginMenu />
           </div>
         </div>
       </nav>

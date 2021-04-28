@@ -41,6 +41,7 @@ export const completeLoginAsync = (): AppThunk => async (dispatch) => {
   const user = await authService.getUserAsync();
   localStorage.setItem("__token", 'Bearer' + ` ${user?.access_token}`);
   dispatch(loginSuccess({ name: user?.profile.name } as IUser));
+  window.location.href="/"
 };
 
 export const logoutAsync = (): AppThunk => async (dispatch) => {
@@ -50,6 +51,8 @@ export const logoutAsync = (): AppThunk => async (dispatch) => {
 
 export const completeLogoutAsync = (): AppThunk => async (dispatch) => {
   await authService.completeLogoutAsync(window.location.href);
+  localStorage.setItem("__token", "");
+  window.location.href="/"
 };
 
 export const selectIsAuthenticated = (state: RootState) => !!state.auth.user;

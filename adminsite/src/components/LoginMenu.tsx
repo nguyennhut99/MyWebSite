@@ -1,13 +1,18 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { selectUser } from "../store/auth-slice";
 
 interface IProps {
   isAuthenticated: boolean;
   userName?: string;
 }
 
-const LoginMenu = ({ isAuthenticated, userName }: IProps) => {
-  if (isAuthenticated) {
+
+const LoginMenu = () => {
+  const userName = useSelector(selectUser)?.name;
+  const check = localStorage.getItem("__token")
+  if (check !="") {
     return (
       <ul className="navbar-nav">
         <li className="nav-item">

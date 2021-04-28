@@ -5,7 +5,7 @@ import { loginAsync, logoutAsync, completeLoginAsync, completeLogoutAsync } from
 
 const Auth = () => {
   let { path } = useRouteMatch();
-
+  
   return (
     <div>
       <Switch>
