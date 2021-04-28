@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using MyShop.Backend.Data;
 using MyShop.Backend.Models;
 using MyShop.Backend.Services;
@@ -23,11 +24,13 @@ namespace MyShop.Backend.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IStorageService _storageService;
+        private readonly IConfiguration _config;
 
-        public ProductController(ApplicationDbContext context, IStorageService storageService)
+        public ProductController(ApplicationDbContext context, IStorageService storageService, IConfiguration config)
         {
             _context = context;
             _storageService = storageService;
+            _config = config;
         }
         [HttpGet]
         [AllowAnonymous]
@@ -41,7 +44,7 @@ namespace MyShop.Backend.Controllers
                     Price = x.Price,
                     Description = x.Description,
                     Rating = x.Rating,
-                    ThumbnailImageUrl = x.ImageFileName == null ? "" : Path.Combine("https://localhost:44358/images", x.ImageFileName),
+                    ThumbnailImageUrl = x.ImageFileName == null ? "" : Path.Combine($"{_config["Host"]}/images", x.ImageFileName),
                     CreateDate = x.CreateDate.ToString("dd'/'MM'/'yyyy HH:mm:ss"),
                     ModifyDate = x.ModifyDate==DateTime.MinValue?"null":x.ModifyDate.ToString("dd'/'MM'/'yyyy HH:mm:ss")
                 })
@@ -63,7 +66,7 @@ namespace MyShop.Backend.Controllers
                     CategoryId = CategoryId,
                     Description = x.Product.Description,
                     Rating = x.Product.Rating,
-                    ThumbnailImageUrl = x.Product.ImageFileName == null ? "" : Path.Combine("https://localhost:44358/images", x.Product.ImageFileName),
+                    ThumbnailImageUrl = x.Product.ImageFileName == null ? "" : Path.Combine($"{_config["Host"]}/images", x.Product.ImageFileName),
                     CreateDate = x.Product.CreateDate.ToString("dd'/'MM'/'yyyy HH:mm:ss"),
                     ModifyDate = x.Product.ModifyDate==DateTime.MinValue?"null":x.Product.ModifyDate.ToString("dd'/'MM'/'yyyy HH:mm:ss")
                 })
@@ -89,7 +92,7 @@ namespace MyShop.Backend.Controllers
                 Description = product.Description,
                 Rating = product.Rating,
                 RatingCount = product.RatingCount,
-                ThumbnailImageUrl = Path.Combine("https://localhost:44358/images", product.ImageFileName),
+                ThumbnailImageUrl = Path.Combine($"{_config["Host"]}/images", product.ImageFileName),
                 CreateDate = product.CreateDate.ToString("dd'/'MM'/'yyyy HH:mm:ss"),
                 ModifyDate = product.ModifyDate==DateTime.MinValue?"null":product.ModifyDate.ToString("dd'/'MM'/'yyyy HH:mm:ss")
             };
