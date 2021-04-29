@@ -9,7 +9,6 @@ using MyShop.Backend.Models;
 using MyShop.Share;
 
 
-
 namespace MyShop.Backend.Controllers
 {
     [Route("api/[controller]")]
@@ -66,13 +65,18 @@ namespace MyShop.Backend.Controllers
             brand.Name = brandCreateRequest.Name;
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return Ok();
         }
 
         [HttpPost]
         [Authorize(Roles = "admin")]
         public async Task<ActionResult<BrandVm>> PostBrand(BrandCreateRequest brandCreateRequest)
         {
+            if (brandCreateRequest.Name == "")
+            {
+                return NotFound();
+            }
+            
             var brand = new Brand
             {
                 Name = brandCreateRequest.Name
