@@ -46,7 +46,7 @@ namespace MyShop.Backend.Controllers
                     Rating = x.Rating,
                     ThumbnailImageUrl = x.ImageFileName == null ? "" : Path.Combine($"{_config["Host"]}/images", x.ImageFileName),
                     CreateDate = x.CreateDate.ToString("dd'/'MM'/'yyyy HH:mm:ss"),
-                    ModifyDate = x.ModifyDate==DateTime.MinValue?"null":x.ModifyDate.ToString("dd'/'MM'/'yyyy HH:mm:ss")
+                    ModifyDate = x.ModifyDate == DateTime.MinValue ? "null" : x.ModifyDate.ToString("dd'/'MM'/'yyyy HH:mm:ss")
                 })
                 .ToListAsync();
         }
@@ -68,7 +68,7 @@ namespace MyShop.Backend.Controllers
                     Rating = x.Product.Rating,
                     ThumbnailImageUrl = x.Product.ImageFileName == null ? "" : Path.Combine($"{_config["Host"]}/images", x.Product.ImageFileName),
                     CreateDate = x.Product.CreateDate.ToString("dd'/'MM'/'yyyy HH:mm:ss"),
-                    ModifyDate = x.Product.ModifyDate==DateTime.MinValue?"null":x.Product.ModifyDate.ToString("dd'/'MM'/'yyyy HH:mm:ss")
+                    ModifyDate = x.Product.ModifyDate == DateTime.MinValue ? "null" : x.Product.ModifyDate.ToString("dd'/'MM'/'yyyy HH:mm:ss")
                 })
                 .ToListAsync();
         }
@@ -92,9 +92,9 @@ namespace MyShop.Backend.Controllers
                 Description = product.Description,
                 Rating = product.Rating,
                 RatingCount = product.RatingCount,
-                ThumbnailImageUrl = Path.Combine($"{_config["Host"]}/images", product.ImageFileName),
+                ThumbnailImageUrl = product.ImageFileName == null ? "" : Path.Combine($"{_config["Host"]}/images", product.ImageFileName),
                 CreateDate = product.CreateDate.ToString("dd'/'MM'/'yyyy HH:mm:ss"),
-                ModifyDate = product.ModifyDate==DateTime.MinValue?"null":product.ModifyDate.ToString("dd'/'MM'/'yyyy HH:mm:ss")
+                ModifyDate = product.ModifyDate == DateTime.MinValue ? "null" : product.ModifyDate.ToString("dd'/'MM'/'yyyy HH:mm:ss")
             };
 
             return productVm;
@@ -145,7 +145,7 @@ namespace MyShop.Backend.Controllers
 
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return Ok();
         }
 
         [HttpPost]
@@ -198,7 +198,7 @@ namespace MyShop.Backend.Controllers
             _context.Products.Remove(product);
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return Ok();
         }
 
         private async Task<string> SaveFile(IFormFile file)
