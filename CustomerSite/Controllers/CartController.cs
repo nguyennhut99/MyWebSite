@@ -73,9 +73,12 @@ namespace CustomerSite.Controllers
 
         }
 
-        public async Task<IActionResult> Checkout()
+        [HttpPost] 
+        public async Task<IActionResult> Checkout(IFormCollection form)
         {
-            await _cartApiClient.Checkout();
+            string Address =  form["Address"];
+            string Phone =  form["Phone"];
+            await _cartApiClient.Checkout(Address, Phone);
             
             return Redirect("../Cart/CartsView");
 

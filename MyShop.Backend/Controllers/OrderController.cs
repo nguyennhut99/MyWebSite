@@ -76,7 +76,7 @@ namespace MyShop.Backend.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<ActionResult<OrderVm>> PostOrder()
+        public async Task<ActionResult<OrderVm>> PostOrder(CheckOutCreateRequest checkOut)
         {
             if (_userUtility.GetUserId() == null)
             {
@@ -119,8 +119,9 @@ namespace MyShop.Backend.Controllers
             {
                 OrderDate = DateTime.Now,
                 UserId = _userUtility.GetUserId(),
+                Address = checkOut.Address,
+                Phone = checkOut.Phone,
                 TotalDue = total,
-
             };
 
             Carts.ForEach(x => {

@@ -2,9 +2,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MyShop.Share
 {
-    public class BrandCreateRequest
+    public class RatingCreateRequest
     {
         [Required]
-        public string Name {get; set;}
+        public int ProductId { get; set; }
+
+        public int Rating { get; set; }
     }
 }

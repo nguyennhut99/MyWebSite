@@ -72,12 +72,14 @@ namespace CustomerSite.Services
             return await response.Content.ReadAsAsync<IList<CartVM>>();
         }
 
-        public async Task<IList<CartVM>> Checkout()
+        public async Task<IList<CartVM>> Checkout(string Address, string Phone)
         {
             var accessToken = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
-            var response = await _client.PostAsJsonAsync($"https://localhost:44358/api/Order","");
+            
+
+            var response = await _client.PostAsJsonAsync($"https://localhost:44358/api/Order", new CheckOutCreateRequest{Address= Address, Phone= Phone} );
 
             response.EnsureSuccessStatusCode();
 
