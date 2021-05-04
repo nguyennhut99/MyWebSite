@@ -4,6 +4,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using MyShop.Share;
 
 
@@ -13,11 +14,13 @@ namespace CustomerSite.Services
     {
         private readonly HttpClient _client;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IConfiguration _config;
 
-        public CartApiClient(HttpClient client, IHttpContextAccessor httpContextAccessor)
+        public CartApiClient(HttpClient client, IHttpContextAccessor httpContextAccessor, IConfiguration config)
         {
             _client = client;
             _httpContextAccessor = httpContextAccessor;
+            _config = config;
         }
 
         public async Task<IList<CartVM>> GetCarts()
@@ -25,7 +28,7 @@ namespace CustomerSite.Services
             var accessToken = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
-            var response = await _client.GetAsync("https://localhost:44358/api/Cart");
+            var response = await _client.GetAsync($"{_config["Host"]}/api/Cart");
 
             response.EnsureSuccessStatusCode();
 
@@ -37,11 +40,12 @@ namespace CustomerSite.Services
             var accessToken = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
-            var CartRequest = new CartCreateRequest{
+            var CartRequest = new CartCreateRequest
+            {
                 ProductId = productId,
                 OrderQty = orderQty
             };
-            var response = await _client.PostAsJsonAsync("https://localhost:44358/api/Cart", CartRequest);
+            var response = await _client.PostAsJsonAsync($"{_config["Host"]}/api/Cart", CartRequest);
 
             response.EnsureSuccessStatusCode();
 
@@ -53,7 +57,7 @@ namespace CustomerSite.Services
             var accessToken = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
-            var response = await _client.DeleteAsync($"https://localhost:44358/api/Cart/{cartId}");
+            var response = await _client.DeleteAsync($"{_config["Host"]}/api/Cart/{cartId}");
 
             response.EnsureSuccessStatusCode();
 
@@ -65,7 +69,7 @@ namespace CustomerSite.Services
             var accessToken = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
-            var response = await _client.PutAsJsonAsync($"https://localhost:44358/api/Cart/{cartId}?newOrderQty={Qty}", cartId);
+            var response = await _client.PutAsJsonAsync($"{_config["Host"]}/api/Cart/{cartId}?newOrderQty={Qty}", cartId);
 
             response.EnsureSuccessStatusCode();
 
@@ -77,9 +81,9 @@ namespace CustomerSite.Services
             var accessToken = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
-            
 
-            var response = await _client.PostAsJsonAsync($"https://localhost:44358/api/Order", new CheckOutCreateRequest{Address= Address, Phone= Phone} );
+
+            var response = await _client.PostAsJsonAsync($"{_config["Host"]}/api/Order", new CheckOutCreateRequest { Address = Address, Phone = Phone });
 
             response.EnsureSuccessStatusCode();
 

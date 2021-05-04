@@ -4,6 +4,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using MyShop.Share;
 
 
@@ -13,11 +14,13 @@ namespace CustomerSite.Services
     {
         private readonly HttpClient _client;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IConfiguration _config;
 
-        public RatingApiClient(HttpClient client, IHttpContextAccessor httpContextAccessor)
+        public RatingApiClient(HttpClient client, IHttpContextAccessor httpContextAccessor, IConfiguration config)
         {
             _client = client;
             _httpContextAccessor = httpContextAccessor;
+            _config = config;
         }
 
 
@@ -30,7 +33,7 @@ namespace CustomerSite.Services
                 ProductId = productId,
                 Rating = rating
             };
-            var response = await _client.PostAsJsonAsync("https://localhost:44358/api/Rating", ratingCrequest);
+            var response = await _client.PostAsJsonAsync($"{_config["Host"]}/api/Rating", ratingCrequest);
 
             response.EnsureSuccessStatusCode();
 

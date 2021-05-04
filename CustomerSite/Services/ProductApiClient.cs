@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 using MyShop.Share;
 
 namespace CustomerSite.Services
@@ -8,14 +9,16 @@ namespace CustomerSite.Services
     public class ProductApiClient : IProductApiClient
     {
         private readonly HttpClient _client;
+        private readonly IConfiguration _config;
 
-        public ProductApiClient(HttpClient client)
+        public ProductApiClient(HttpClient client, IConfiguration config)
         {
             _client = client;
+            _config = config;
         }
         public async Task<IList<ProductVm>> Getproducts()
         {
-            var response = await _client.GetAsync("https://localhost:44358/api/Product");
+            var response = await _client.GetAsync($"{_config["Host"]}/api/Product");
 
             response.EnsureSuccessStatusCode();
 
@@ -24,7 +27,7 @@ namespace CustomerSite.Services
 
         public async Task<ProductVm> Getproduct(int id)
         {
-            var response = await _client.GetAsync($"https://localhost:44358/api/Product/{id}");
+            var response = await _client.GetAsync($"{_config["Host"]}/api/Product/{id}");
 
             response.EnsureSuccessStatusCode();
 
@@ -33,7 +36,7 @@ namespace CustomerSite.Services
 
         public async Task<IList<ProductVm>> GetProductByCategory(int id)
         {
-            var response = await _client.GetAsync($"https://localhost:44358/api/Product/Category/{id}");
+            var response = await _client.GetAsync($"{_config["Host"]}/api/Product/Category/{id}");
 
             response.EnsureSuccessStatusCode();
 
