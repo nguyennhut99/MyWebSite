@@ -1,10 +1,11 @@
 import { User, UserManager } from "oidc-client";
+import configData from "../config.json";
 
 const oidcSettings = {
-  authority: "https://localhost:44358",
+  authority: configData.Back_end,
   client_id: "react_code_client",
-  redirect_uri: "http://localhost:3000/authentication/login-callback",
-  post_logout_redirect_uri: "http://localhost:3000/authentication/logout-callback",
+  redirect_uri: `${configData.React}/authentication/login-callback`,
+  post_logout_redirect_uri: `${configData.React}/authentication/logout-callback`,
   response_type: "code",
   scope: "myshop.api openid profile",
   automaticSilentRenew: true,

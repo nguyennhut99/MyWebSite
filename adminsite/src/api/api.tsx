@@ -1,5 +1,6 @@
 import axios from "axios";
-axios.defaults.baseURL = "https://localhost:44358";
+import configData from "../config.json";
+axios.defaults.baseURL = configData.Back_end;
 
 const config = {
     headers: { Authorization: localStorage.getItem("__token") }
