@@ -15,9 +15,9 @@ import { useEffect } from "react";
 
 const App = () => {
   useEffect(() => {
-    window.addEventListener("blur", e => {
+    window.onload = () => {
       localStorage.setItem("__token", "");
-    });
+    }
   });
   return (
     <BrowserRouter basename={"/"}>
