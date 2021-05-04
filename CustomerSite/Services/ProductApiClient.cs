@@ -38,7 +38,7 @@ namespace CustomerSite.Services
             response.EnsureSuccessStatusCode();
 
             return await response.Content.ReadAsAsync<IList<ProductVm>>();
-        } 
-        
+        }
+
     }
 }

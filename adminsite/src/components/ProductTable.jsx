@@ -24,9 +24,9 @@ const ProductTable = () => {
             <th>Thumbnail Image</th>
             <th>Name</th>
             <th>Price</th>
-            <th>Description</th> 
-            <th>Create Date</th>   
-            <th>Modify Date</th>        
+            <th>Description</th>
+            <th>Create Date</th>
+            <th>Modify Date</th>
             <th></th>
           </tr>
           {ProductList.map((product) => (

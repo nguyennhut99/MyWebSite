@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace MyShop.Backend.Models
 {
-    public class User: IdentityUser
+    public class User : IdentityUser
     {
         public User() : base()
         {

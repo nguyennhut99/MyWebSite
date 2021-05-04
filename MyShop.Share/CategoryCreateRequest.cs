@@ -5,6 +5,6 @@ namespace MyShop.Share
     public class CategoryCreateRequest
     {
         [Required]
-        public string Name {get; set;}
+        public string Name { get; set; }
     }
 }

@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -19,13 +18,13 @@ namespace MyShop.Backend.Controllers
     public class RatingController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-        private readonly  IUserUtility _userUtility;
+        private readonly IUserUtility _userUtility;
 
         public RatingController(ApplicationDbContext context, IUserUtility userUtility)
         {
             _context = context;
             _userUtility = userUtility;
-        }    
+        }
 
         [HttpPost]
         [AllowAnonymous]
@@ -42,9 +41,10 @@ namespace MyShop.Backend.Controllers
                 .Where(r => r.ProductId == ratingCreateRequest.ProductId && r.UserId == _userUtility.GetUserId())
                 .ToListAsync();
 
-            if (Rating.Count()==0)
+            if (Rating.Count() == 0)
             {
-                _context.UserRatings.Add(new UserRating{
+                _context.UserRatings.Add(new UserRating
+                {
                     UserId = _userUtility.GetUserId(),
                     ProductId = ratingCreateRequest.ProductId,
                     Rating = ratingCreateRequest.Rating
@@ -53,30 +53,32 @@ namespace MyShop.Backend.Controllers
             }
             else
             {
-                Rating[0].Rating = ratingCreateRequest.Rating;                
+                Rating[0].Rating = ratingCreateRequest.Rating;
                 await _context.SaveChangesAsync();
             }
 
             var ListRating = await _context.UserRatings
                 .Where(r => r.ProductId == ratingCreateRequest.ProductId)
-                .Select(x => new UserRating{                    
+                .Select(x => new UserRating
+                {
                     Rating = x.Rating
                 })
                 .ToListAsync();
 
             var totalRating = 0;
 
-            ListRating.ForEach(x=>{
+            ListRating.ForEach(x =>
+            {
                 totalRating += x.Rating;
             });
 
-            product.Rating = totalRating/ ListRating.Count();            
+            product.Rating = totalRating / ListRating.Count();
             product.RatingCount = ListRating.Count();
             await _context.SaveChangesAsync();
 
             return Ok();
-        }    
+        }
 
-         
+
     }
 }

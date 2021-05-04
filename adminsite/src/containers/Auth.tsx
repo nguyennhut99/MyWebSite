@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Switch, Route, useHistory, useRouteMatch } from "react-router-dom";
 import { loginAsync, logoutAsync, completeLoginAsync, completeLogoutAsync } from "../store/auth-slice";
 
 const Auth = () => {
   let { path } = useRouteMatch();
-  
+
   return (
     <div>
       <Switch>

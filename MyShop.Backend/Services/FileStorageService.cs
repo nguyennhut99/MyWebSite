@@ -13,7 +13,7 @@ namespace MyShop.Backend.Services
         [System.Obsolete]
         public FileStorageService(IHostingEnvironment environment)
         {
-            _userContentFolder = environment.ContentRootPath+"//wwwroot//images";
+            _userContentFolder = environment.ContentRootPath + "//wwwroot//images";
         }
 
         [System.Obsolete]
@@ -26,7 +26,7 @@ namespace MyShop.Backend.Services
                 {
                     await FileUpload.CopyToAsync(fileStream);
                 }
-            }   
+            }
         }
 
         [System.Obsolete]

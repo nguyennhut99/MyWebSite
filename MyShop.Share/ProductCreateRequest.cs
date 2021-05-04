@@ -17,7 +17,7 @@ namespace MyShop.Share
 
         public int BrandId { get; set; }
 
-        public List<int> CategoryId {get; set;}
+        public List<int> CategoryId { get; set; }
 
     }
 }

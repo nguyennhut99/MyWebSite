@@ -119,7 +119,7 @@ const AddProductForm = () => {
                 </div>
                 <div className="form-group">
                     <label>Image</label>
-                    <input type='file' multiple className="form-control" onChange={handleChangeFileImages} required/>
+                    <input type='file' multiple className="form-control" onChange={handleChangeFileImages} required />
                 </div>
                 <button type="submit" className="btn btn-primary">Submit</button>
             </form>

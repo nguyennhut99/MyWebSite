@@ -5,6 +5,6 @@ namespace MyShop.Share
     public class BrandCreateRequest
     {
         [Required]
-        public string Name {get; set;}
+        public string Name { get; set; }
     }
 }

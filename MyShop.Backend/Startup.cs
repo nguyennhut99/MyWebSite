@@ -1,9 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,8 +14,6 @@ using MyShop.Backend.Models;
 using MyShop.Backend.Services;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MyShop.Backend
 {
@@ -63,8 +59,8 @@ namespace MyShop.Backend
                .AddInMemoryIdentityResources(IdentityServerConfig.IdentityResources)
                .AddInMemoryApiScopes(IdentityServerConfig.ApiScopes)
                .AddInMemoryClients(IdentityServerConfig.Clients(clientUrls))
-               .AddAspNetIdentity<User>()    
-               .AddProfileService<CustomProfileService>()        
+               .AddAspNetIdentity<User>()
+               .AddProfileService<CustomProfileService>()
                .AddDeveloperSigningCredential(); // not recommended for production - you need to store your key material somewhere secure
             services.AddCors(options =>
             {
@@ -136,14 +132,14 @@ namespace MyShop.Backend
                 app.UseHsts();
             }
             app.UseCors("AllowAnyOrigin");
-            
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
 
             app.UseIdentityServer();
-            app.UseAuthorization();            
+            app.UseAuthorization();
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>

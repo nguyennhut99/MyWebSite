@@ -1,12 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using CustomerSite.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -55,14 +50,14 @@ namespace CustomerSite
                         RoleClaimType = "role"
                     };
                 });
-            services.AddHttpContextAccessor(); 
+            services.AddHttpContextAccessor();
             services.AddHttpClient();
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<ICategoryApiClient, CategoryApiClient>();
             services.AddTransient<IProductApiClient, ProductApiClient>();
             services.AddTransient<ICartApiClient, CartApiClient>();
             services.AddTransient<IRatingApiClient, RatingApiClient>();
-                
+
             services.AddControllersWithViews();
         }
 
@@ -84,7 +79,7 @@ namespace CustomerSite
 
             app.UseRouting();
 
-            app.UseAuthentication();            
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

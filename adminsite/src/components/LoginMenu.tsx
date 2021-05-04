@@ -12,7 +12,7 @@ interface IProps {
 const LoginMenu = () => {
   const userName = useSelector(selectUser)?.name;
   const check = localStorage.getItem("__token")
-  if (check !="") {
+  if (check != "") {
     return (
       <ul className="navbar-nav">
         <li className="nav-item">

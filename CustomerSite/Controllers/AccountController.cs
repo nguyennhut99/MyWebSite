@@ -1,8 +1,6 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Text.Encodings.Web;
 
 namespace CustomerSite.Controllers
 {
@@ -10,7 +8,7 @@ namespace CustomerSite.Controllers
     {
         public IActionResult SignIn()
         {
-        
+
             return Challenge(new AuthenticationProperties { RedirectUri = "/" }, "oidc");
         }
 

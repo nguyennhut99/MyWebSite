@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using CustomerSite.Models;
 using CustomerSite.Services;
-using System.IO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authorization;
 
@@ -27,15 +24,15 @@ namespace CustomerSite.Controllers
         [HttpPost]
         public async Task<IActionResult> Rating(IFormCollection form)
         {
-            int productId =  Convert.ToInt32(form["productId"]);
-            int rating =  Convert.ToInt32(form["rating"]);
+            int productId = Convert.ToInt32(form["productId"]);
+            int rating = Convert.ToInt32(form["rating"]);
 
             await _ratingApiClient.Rating(productId, rating);
 
             return Redirect($"../Product/ProductView/{productId}");
         }
 
-        
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

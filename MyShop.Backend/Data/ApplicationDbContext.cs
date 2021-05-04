@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using MyShop.Backend.Models;
 
@@ -14,7 +11,7 @@ namespace MyShop.Backend.Data
         {
         }
 
-        public DbSet<Brand> Brands {get; set;}
+        public DbSet<Brand> Brands { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<ProductCategory> ProductCategory { get; set; }
@@ -22,7 +19,7 @@ namespace MyShop.Backend.Data
         public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<Cart> Carts { get; set; }
         public DbSet<UserRating> UserRatings { get; set; }
-        
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -35,7 +32,7 @@ namespace MyShop.Backend.Data
                 .HasOne(pc => pc.Product)
                 .WithMany(p => p.ProductCategories)
                 .HasForeignKey(pc => pc.ProductId);
-                
+
             modelBuilder.Entity<ProductCategory>()
                 .HasOne(pc => pc.Category)
                 .WithMany(c => c.ProductCategories)
@@ -55,7 +52,7 @@ namespace MyShop.Backend.Data
                 .HasOne(c => c.product)
                 .WithMany(p => p.Carts)
                 .HasForeignKey(c => c.ProductId);
-            
+
             modelBuilder.Entity<Cart>()
                 .HasOne(c => c.User)
                 .WithMany(u => u.Carts)
@@ -68,7 +65,7 @@ namespace MyShop.Backend.Data
                 .HasOne(ur => ur.Product)
                 .WithMany(p => p.UserRatings)
                 .HasForeignKey(ur => ur.ProductId);
-                
+
             modelBuilder.Entity<UserRating>()
                 .HasOne(ur => ur.User)
                 .WithMany(c => c.UserRatings)

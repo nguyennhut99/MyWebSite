@@ -34,7 +34,7 @@ const OrderDetail = () => {
               <td>{order.productName}</td>
               <td>{order.orderQty}</td>
               <td>{order.unitPrice}</td>
-              <td>{order.total} VND</td>  
+              <td>{order.total} VND</td>
             </tr>
           ))}
 

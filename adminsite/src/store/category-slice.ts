@@ -8,10 +8,10 @@ const initialState = {
 }
 
 function checkEror(e: any) {
-    if(e.response.status == 401){
-        window.location.href="/authentication/login"
+    if (e.response.status == 401) {
+        window.location.href = "/authentication/login"
     }
-    if(e.response.status == 403){
+    if (e.response.status == 403) {
         window.alert("tài khoảng không đủ quyền");
     }
 }
@@ -23,7 +23,7 @@ export const categorySlice = createSlice({
         getcategories: (state, { payload }) => {
             state.categories = payload.data;
         },
-        getCategory : (state, { payload }) => {
+        getCategory: (state, { payload }) => {
             state.category = payload.data;
         },
     },
@@ -44,11 +44,11 @@ export const get_Categories = (): AppThunk => async (dispatch) => {
 
 export const get_Category = (id: number): AppThunk => async (dispatch) => {
     try {
-        const data = await (await api.Category.getCategory(id )).data;
+        const data = await (await api.Category.getCategory(id)).data;
         dispatch(getCategory({ data }));
 
     } catch (error) {
-        checkEror(error) 
+        checkEror(error)
     }
 };
 
@@ -59,7 +59,7 @@ export const add_category = (content: any): AppThunk => async (dispatch) => {
         dispatch(getcategories({ data }));
 
     } catch (error) {
-        checkEror(error) 
+        checkEror(error)
     }
 };
 
@@ -70,7 +70,7 @@ export const delete_Category = (id: number): AppThunk => async (dispatch) => {
         dispatch(getcategories({ data }));
 
     } catch (error) {
-        checkEror(error) 
+        checkEror(error)
     }
 };
 
@@ -81,7 +81,7 @@ export const update_category = (id: number, content: any): AppThunk => async (di
         dispatch(getcategories({ data }));
 
     } catch (error) {
-        checkEror(error) 
+        checkEror(error)
     }
 };
 

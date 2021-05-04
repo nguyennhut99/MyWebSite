@@ -7,9 +7,9 @@ const VerticalTabs = () => {
 
     return (
         <div className="col-sm-2 col-md-2 col-lg-2 col-xl-2 tab">
-            <button className="tablinks" onClick={()=> history.push("/")} >Product Management</button>
-            <button className="tablinks" onClick={()=> history.push("/category")}>Category Management</button>
-            <button className="tablinks" onClick={()=> history.push("/user-management")} >User Management</button>
+            <button className="tablinks" onClick={() => history.push("/")} >Product Management</button>
+            <button className="tablinks" onClick={() => history.push("/category")}>Category Management</button>
+            <button className="tablinks" onClick={() => history.push("/user-management")} >User Management</button>
         </div>
 
     )

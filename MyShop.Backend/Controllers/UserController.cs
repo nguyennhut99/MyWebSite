@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyShop.Backend.Data;
-using MyShop.Backend.Models;
 using MyShop.Share;
 
 
@@ -28,10 +27,12 @@ namespace MyShop.Backend.Controllers
         public async Task<ActionResult<IEnumerable<UserVm>>> GetUsers()
         {
             return await _context.Users
-                .Select(x => new UserVm { 
-                    Id = x.Id, 
+                .Select(x => new UserVm
+                {
+                    Id = x.Id,
                     UserName = x.UserName,
-                    Email =x.Email})
+                    Email = x.Email
+                })
                 .ToListAsync();
         }
 
@@ -56,26 +57,27 @@ namespace MyShop.Backend.Controllers
         public async Task<ActionResult<IEnumerable<OrderDetailVm>>> GetOrder(int id)
         {
             var order = _context.OrderHeaders
-                .Where(o => o.Id == id);                
+                .Where(o => o.Id == id);
 
             if (order == null)
             {
                 return NotFound();
             }
 
-            var orderDetails =await _context.OrderDetails
-            .Where(od => od.OrderId ==id)
+            var orderDetails = await _context.OrderDetails
+            .Where(od => od.OrderId == id)
             .Join(
                 _context.Products,
                 od => od.ProductId,
                 p => p.Id,
-                (od, p) => new OrderDetailVm{
+                (od, p) => new OrderDetailVm
+                {
                     ProductId = od.ProductId,
                     ProductName = p.Name,
                     OrderQty = od.OrderQty,
                     UnitPrice = od.UnitPrice,
                     total = od.UnitPrice * od.OrderQty
-                }            
+                }
             ).ToListAsync();
             return orderDetails;
         }

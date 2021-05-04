@@ -9,10 +9,10 @@ const initialState = {
 }
 
 function checkEror(e: any) {
-    if(e.response.status == 401){
-        window.location.href="/authentication/login"
+    if (e.response.status == 401) {
+        window.location.href = "/authentication/login"
     }
-    if(e.response.status == 403){
+    if (e.response.status == 403) {
         window.alert("tài khoảng không đủ quyền");
     }
 }

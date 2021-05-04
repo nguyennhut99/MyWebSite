@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using CustomerSite.Models;
 using CustomerSite.Services;
-using System.IO;
 
 namespace CustomerSite.Controllers
 {
@@ -23,14 +19,14 @@ namespace CustomerSite.Controllers
 
         public async Task<IActionResult> ProductView(int id)
         {
-            var Product = await _productApiClient.Getproduct(id);          
+            var Product = await _productApiClient.Getproduct(id);
 
             return View(Product);
         }
 
         public async Task<IActionResult> Category(int id)
         {
-            var Products = await _productApiClient.GetProductByCategory(id);            
+            var Products = await _productApiClient.GetProductByCategory(id);
 
             return View(Products);
         }
