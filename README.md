@@ -52,6 +52,10 @@ cd .\adminsite
 npm i
 npm start
 ```
+### website demo
+https://backenda5a642c4d1424c88be8b289c173f512d.azurewebsites.net/
+https://customersite5620b9523a404879a94fe12805c303b8.azurewebsites.net/
+https://sa132f971af2a046fa87ed12.z23.web.core.windows.net/
 
 ## references
 
