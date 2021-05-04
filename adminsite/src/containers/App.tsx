@@ -11,8 +11,14 @@ import UpdateCategory from "../components/UpdateCategory";
 import UserManagement from "../components/UserManagement";
 import UserDetail from "../components/UserOrder";
 import OrderDetail from "../components/OrderDetail";
+import { useEffect } from "react";
 
 const App = () => {
+  useEffect(() => {
+    window.addEventListener("blur", e => {
+      localStorage.setItem("__token", "");
+    });
+  });
   return (
     <BrowserRouter basename={"/"}>
       <NavMenu />
